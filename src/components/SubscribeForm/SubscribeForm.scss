@@ -1,0 +1,38 @@
+@import "../../styles/variables";
+
+.SubscribeForm {
+  border-radius: 44px;
+  background: linear-gradient(to right, #FFFEFE, #C8D4C3, #6484F5);
+  padding: 2px;
+
+  .field {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    background: rgba($primary, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: 44px;
+    overflow: hidden;
+
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    padding: .5em 2em;
+    border-radius: 44px;
+    color: $invert;
+    @media only screen and (max-width: 480px) {
+      width: 100px;
+    }
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
+}
+.form-info {
+  margin-top: 1rem;
+}
+

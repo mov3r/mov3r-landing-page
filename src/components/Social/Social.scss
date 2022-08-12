@@ -1,0 +1,10 @@
+.Social {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 380px;
+  margin-top: auto;
+  padding-bottom: 2rem;
+}

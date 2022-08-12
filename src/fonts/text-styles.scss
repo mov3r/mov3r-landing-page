@@ -1,0 +1,47 @@
+@import "../styles/mixins";
+@import "../styles/variables";
+
+@font-face {
+  font-family: "PP Eiko";
+  src: local("PP Eiko"),
+  url("./ppeiko-heavy.otf") format("opentype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Nunito-Regular";
+  src: local("Nunito Regular"),
+  url("./Nunito-Regular.ttf") format("truetype");
+  font-weight: bold;
+}
+
+body, input {
+  color: $primary;
+  font-family: Nunito Regular, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-weight: bolder;
+  text-transform: lowercase;
+  font-family: 'PP Eiko',
+  -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  font-size: 150px;
+  @media only screen and (max-width: 480px) {
+  font-size: 100px;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
