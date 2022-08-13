@@ -1,32 +1,4 @@
 .App {
-  .bg-layer {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vw;
-    z-index: 0;
-    background: radial-gradient(73.51% 73.51% at 82.14% 15.92%, rgba(255, 230, 0, 0.6) 0%, rgba(204, 97, 242, 0.6) 50%, rgba(0, 255, 194, 0.6) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-    filter: blur(190px);
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: url("./assets/noise.png");
-     background-repeat: repeat;
-    }
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: 1;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
-      min-height: calc(100vh + 50px + 20px);
-    }
-  }
   .content {
     min-height: 100vh;
     position: relative;
@@ -35,19 +7,7 @@
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    padding: 0 2rem;
+    padding: 2rem;
     box-sizing: border-box;
-
-    .text {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-
-      & > div:not(:last-child) {
-        margin-bottom: 2rem;
-      }
-    }
   }
 }
