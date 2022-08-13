@@ -8,14 +8,14 @@ type Props = {
 
 const Button: React.FC<Props> = (props) => {
   return (
-    <div
+    <button
       onClick={props.onClick}
       className="Button"
     >
       <div className="inner">
         {props.child}
       </div>
-    </div>
+    </button>
   )
 }
 

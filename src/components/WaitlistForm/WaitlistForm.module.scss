@@ -1,0 +1,57 @@
+.wrapper {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 5px;
+  border-radius: 58px;
+  background: rgba(#fff, .3);
+  transition: background 0.25s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50px;
+    border: 2px solid transparent;
+    background: linear-gradient(115deg, rgba(#fff, 0.7), rgba(#fff, 0)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+  }
+
+  &:focus-within {
+    background: rgba(#fff, .6);
+  }
+}
+
+.input {
+  flex: 1;
+  position: relative;
+  width: 100px;
+  height: 48px;
+  margin: 0 8px 0 0;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 54px;
+  background: none;
+  outline: none;
+  color: #434343;
+  font-size: 16px;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #484848;
+  }
+}
+
+.button {
+  position: relative;
+}
