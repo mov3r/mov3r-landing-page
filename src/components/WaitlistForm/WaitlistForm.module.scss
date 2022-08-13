@@ -9,7 +9,7 @@
   position: relative;
   padding: 5px;
   border-radius: 58px;
-  background: rgba(#fff, .3);
+  background: rgba(#fff, .1);
   transition: background 0.25s;
 
   &::before {
@@ -20,10 +20,11 @@
     right: 0;
     bottom: 0;
     border-radius: 50px;
-    border: 2px solid transparent;
+    border: 2px solid rgba(#fff, 0.7);
+    // border: 2px solid transparent;
     background: linear-gradient(115deg, rgba(#fff, 0.7), rgba(#fff, 0)) border-box;
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
+    // -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    // -webkit-mask-composite: destination-out;
     mask-composite: exclude;
   }
 
@@ -38,20 +39,32 @@
   width: 100px;
   height: 48px;
   margin: 0 8px 0 0;
-  padding: 0 28px;
+  padding: 0 8px 0 28px;
   border: 0;
   border-radius: 54px;
   background: none;
   outline: none;
-  color: #434343;
+  color: var(--color-text);
   font-size: 16px;
   font-family: inherit;
 
   &::placeholder {
-    color: #484848;
+    color: var(--color-text-secondary);
   }
 }
 
 .button {
   position: relative;
+}
+
+.arrowIcon, .copyIcon {
+  margin-left: 6px;
+}
+
+.arrowIcon {
+  width: 16px;
+}
+
+.copyIcon {
+  width: 12px;
 }

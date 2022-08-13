@@ -2,18 +2,18 @@ import React from 'react'
 import './Button.scss'
 
 type Props = {
-  child: React.ReactNode | string
+  children: React.ReactNode | string
   onClick: () => void
 }
 
-const Button: React.FC<Props> = (props) => {
+const Button: React.FC<Props> = ({children, onClick}) => {
   return (
     <button
-      onClick={props.onClick}
+      onClick={onClick}
       className="Button"
     >
       <div className="inner">
-        {props.child}
+        {children}
       </div>
     </button>
   )

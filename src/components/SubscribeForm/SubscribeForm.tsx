@@ -63,10 +63,9 @@ const SubscribeForm: React.FC<Props> = (props) => {
             className="mr-2"
             onKeyUp={(event) => handleInputKeyEvent(event)}
           />
-          <Button
-            child="Join Waitlist &rarr;"
-            onClick={handleFormSubmit}
-          />
+          <Button onClick={handleFormSubmit}>
+            Join Waitlist &rarr;
+          </Button>
         </div>
       </div>
       <div className="form-info">
