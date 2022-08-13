@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import cn from 'classnames'
 import Button from '../Button';
+import { ReactComponent as ArrowIcon } from '../../assets/arrow.svg';
 import styles from './WaitlistForm.module.scss'
 
 type WaitlistFormProps = {
@@ -21,7 +22,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className }) => {
     <div className={cn(styles.wrapper, className)}>
       <form className={styles.form} onSubmit={onSubmit}>
         <input placeholder='Email Address' type='email' name='email' required className={styles.input} />
-        <Button child="Join Waitlist &rarr;" onClick={handleFormSubmit} />
+        <Button onClick={handleFormSubmit}>Join Waitlist <ArrowIcon className={styles.arrowIcon} /></Button>
       </form>
     </div>
   )
