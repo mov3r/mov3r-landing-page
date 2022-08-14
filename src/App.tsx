@@ -1,16 +1,19 @@
-import React from 'react';
-import { Background } from './components/Background/Background';
-import { HomeScreen } from './components/HomeScreen/HomeScreen';
-import './App.scss';
+import React from 'react'
+import { BrowserRouter as Router } from "react-router-dom"
+import { Background } from './components/Background/Background'
+import { HomeScreen } from './components/HomeScreen/HomeScreen'
+import './App.scss'
 
 function App() {
-  return (
-    <div className="App">
-      <Background />
-      <div className="content">
-        <HomeScreen />
+    return (
+    <Router>
+      <div className="App">
+        <Background />
+        <div className="content">
+          <HomeScreen />
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

@@ -1,8 +1,7 @@
 import React from 'react'
 import { decode } from 'html-entities';
+import { Button } from '../Button/Button';
 import './SubscribeForm.scss'
-import Button from '../Button';
-
 
 type Props = {
   status: "error" | "success" | "sending" | null,

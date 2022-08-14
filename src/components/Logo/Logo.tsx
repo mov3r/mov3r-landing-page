@@ -13,26 +13,24 @@ type LogoProps = {
 }
 
 export const Logo: FC<LogoProps> = ({ to, className, showLogo = true, showBrand = true }) => {
-  const wrapper = () => {
-    return (
-      <>
-        {showLogo && <LogoIcon className={styles.logo} />}
-        {showBrand && <BrandIcon className={styles.brand} />}
-      </>
-    )
-  }
+  const inner = (
+    <>
+      {showLogo && <LogoIcon className={styles.logo} />}
+      {showBrand && <BrandIcon className={styles.brand} />}
+    </>
+  )
 
   if (to) {
     return (
       <NavLink to={to} className={cn(styles.wrapper, className)}>
-        {wrapper()}
+        {inner}
       </NavLink>
     )
   }
 
   return (
     <div className={cn(styles.wrapper, className)}>
-      {wrapper()}
+      {inner}
     </div>
   )
 }
