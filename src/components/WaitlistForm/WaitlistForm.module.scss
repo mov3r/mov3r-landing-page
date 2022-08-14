@@ -73,8 +73,17 @@
 .referalLink {
   flex: 1;
   position: relative;
+  height: 28px;
+  line-height: 28px;
+  margin: 0 8px 0 28px;
+}
+
+.referalLinkText {
   overflow: hidden;
-  padding: 0 8px 0 28px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
 }

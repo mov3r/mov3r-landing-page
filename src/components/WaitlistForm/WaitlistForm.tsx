@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react'
+import { useSearchParams } from "react-router-dom"
 import { User } from '@supabase/supabase-js';
 import isEmail from 'validator/es/lib/isEmail'
 import cn from 'classnames'
@@ -20,11 +21,34 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
   const [isValid, setValidStatus] = useState(true)
   const [isCopied, setCopyStatus] = useState(false)
   const [referalLink, setReferalLink] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     if (!user) return
     setReferalLink(window.location.origin + '/?ref=' + user.id)
+    const referalId = localStorage.getItem('referal')
+    if (!referalId) return
+    saveReferal(user.id, referalId)
   }, [user])
+
+  const saveReferal = async (userId: string, inviterId: string) => {
+    const insertData = {
+      userId,
+      inviterId
+    }
+    if (!supabase) return
+    const { data, error } = await supabase.from('referal').insert([insertData])
+    if (!error && data) {
+      localStorage.removeItem('referal')
+    }
+  }
+
+  useEffect(() => {
+    const referalId = searchParams.get('ref')
+    if (!referalId || referalId === user?.id) return
+    localStorage.setItem('referal', referalId)
+    setSearchParams({})
+}, [searchParams, setSearchParams, user?.id])
 
   const onChange = (email: string) => {
     setEmail(email)
@@ -76,7 +100,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
 
   const userLinkBlock = (
     <div className={styles.form}>
-      <span className={styles.referalLink}>{referalLink}</span>
+      <span className={styles.referalLink}><span className={styles.referalLinkText}>{referalLink}</span></span>
       <Button onClick={copyLink} disabled={isCopied}>
         {isCopied ? <>Copied ✔️</> : <>Copy <CopyIcon className={styles.copyIcon} /></>}
       </Button>
