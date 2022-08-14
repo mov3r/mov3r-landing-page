@@ -10,6 +10,7 @@
   padding: 5px;
   border-radius: 58px;
   background: rgba(#fff, .1);
+  color: var(--color-text);
   transition: background 0.25s;
 
   &::before {
@@ -44,7 +45,7 @@
   border-radius: 54px;
   background: none;
   outline: none;
-  color: var(--color-text);
+  color: inherit;
   font-size: 16px;
   font-family: inherit;
 
@@ -67,4 +68,18 @@
 
 .copyIcon {
   width: 12px;
+}
+
+.referalLink {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.errorMessage {
+  margin: 8px 0 0;
+  color: #ff00a1;
+  text-shadow: 1px 1px 3px #000;
 }

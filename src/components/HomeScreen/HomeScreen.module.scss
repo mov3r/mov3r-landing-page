@@ -22,6 +22,7 @@
   }
   
   .text {
+    margin: 28px 0;
     line-height: 1.44;
     font-size: 18px;
     text-transform: uppercase;
@@ -34,4 +35,23 @@
   .social {
     margin-top: 48px;
   }
+}
+
+.rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rankCount {
+  margin-left: 8px;
+  font-size: 34px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.spinner {
+  margin-top: 48px;
+  font-size: 58px;
+  line-height: 1;
 }
