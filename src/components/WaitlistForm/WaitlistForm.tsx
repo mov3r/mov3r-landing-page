@@ -16,15 +16,15 @@ type WaitlistFormProps = {
 }
 
 export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, changeStatusFunc }) => {
-  // const [status, setStatus] = useState('sent')
   const [email, setEmail] = useState('')
   const [isValid, setValidStatus] = useState(true)
   const [isCopied, setCopyStatus] = useState(false)
   const [referalLink, setReferalLink] = useState('')
 
   useEffect(() => {
-    setReferalLink(window.location.origin + '/?ref=2356345')
-  }, [])
+    if (!user) return
+    setReferalLink(window.location.origin + '/?ref=' + user.id)
+  }, [user])
 
   const onChange = (email: string) => {
     setEmail(email)
