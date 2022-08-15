@@ -26,8 +26,10 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({className, status, user, ch
   useEffect(() => {
     if (!user) return
     setReferalLink(window.location.origin + '/?ref=' + user.id)
-    const referalId = localStorage.getItem('referal')
-    saveReferal(user.id, referalId)
+    if (localStorage.getItem('referalSent') !== "true") {
+      const referalId = localStorage.getItem('referal')
+      saveReferal(user.id, referalId)
+    }
   }, [user])
 
   const saveReferal = async (userId: string, inviterId: string | null) => {
@@ -38,7 +40,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({className, status, user, ch
     if (!supabase) return
     const {data, error} = await supabase.from('referal').insert([insertData])
     if (!error && data) {
-      localStorage.removeItem('referal')
+      localStorage.setItem('referalSent', "true")
     }
   }
 
