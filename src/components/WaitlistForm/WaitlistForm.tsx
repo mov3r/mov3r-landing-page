@@ -1,12 +1,12 @@
-import { FC, useEffect, useState } from 'react'
-import { useSearchParams } from "react-router-dom"
-import { User } from '@supabase/supabase-js';
+import {FC, useEffect, useState} from 'react'
+import {useSearchParams} from "react-router-dom"
+import {User} from '@supabase/supabase-js';
 import isEmail from 'validator/es/lib/isEmail'
 import cn from 'classnames'
-import { supabase } from '../../libs/supabaseClient'
-import { Button } from '../Button/Button';
-import { ReactComponent as ArrowIcon } from '../../assets/arrow.svg';
-import { ReactComponent as CopyIcon } from '../../assets/copy.svg';
+import {supabase} from '../../libs/supabaseClient'
+import {Button} from '../Button/Button';
+import {ReactComponent as ArrowIcon} from '../../assets/arrow.svg';
+import {ReactComponent as CopyIcon} from '../../assets/copy.svg';
 import styles from './WaitlistForm.module.scss'
 
 type WaitlistFormProps = {
@@ -16,7 +16,7 @@ type WaitlistFormProps = {
   changeStatusFunc: (status: string) => void
 }
 
-export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, changeStatusFunc }) => {
+export const WaitlistForm: FC<WaitlistFormProps> = ({className, status, user, changeStatusFunc}) => {
   const [email, setEmail] = useState('')
   const [isValid, setValidStatus] = useState(true)
   const [isCopied, setCopyStatus] = useState(false)
@@ -27,17 +27,16 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
     if (!user) return
     setReferalLink(window.location.origin + '/?ref=' + user.id)
     const referalId = localStorage.getItem('referal')
-    if (!referalId) return
     saveReferal(user.id, referalId)
   }, [user])
 
-  const saveReferal = async (userId: string, inviterId: string) => {
+  const saveReferal = async (userId: string, inviterId: string | null) => {
     const insertData = {
-      userId,
-      inviterId
+      "user_id": userId,
+      "inviter_id": inviterId
     }
     if (!supabase) return
-    const { data, error } = await supabase.from('referal').insert([insertData])
+    const {data, error} = await supabase.from('referal').insert([insertData])
     if (!error && data) {
       localStorage.removeItem('referal')
     }
@@ -48,7 +47,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
     if (!referalId || referalId === user?.id) return
     localStorage.setItem('referal', referalId)
     setSearchParams({})
-}, [searchParams, setSearchParams, user?.id])
+  }, [searchParams, setSearchParams, user?.id])
 
   const onChange = (email: string) => {
     setEmail(email)
@@ -60,7 +59,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
   const handleFormSubmit = async () => {
     if (!supabase || !email || !isValid) return
     changeStatusFunc('sending')
-    const res = await supabase.auth.signIn({ email })
+    const res = await supabase.auth.signIn({email})
     if (res.error) {
       changeStatusFunc('error')
       return
@@ -93,7 +92,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
         onChange={(event) => onChange?.(event.target.value)}
       />
       <Button onClick={handleFormSubmit} disabled={!email || !isValid} loading={status === 'sending'}>
-        Join Waitlist <ArrowIcon className={styles.arrowIcon} />
+        Join Waitlist <ArrowIcon className={styles.arrowIcon}/>
       </Button>
     </form>
   )
@@ -102,7 +101,7 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({ className, status, user, c
     <div className={styles.form}>
       <span className={styles.referalLink}><span className={styles.referalLinkText}>{referalLink}</span></span>
       <Button onClick={copyLink} disabled={isCopied}>
-        {isCopied ? <>Copied ✔️</> : <>Copy <CopyIcon className={styles.copyIcon} /></>}
+        {isCopied ? <>Copied ✔️</> : <>Copy <CopyIcon className={styles.copyIcon}/></>}
       </Button>
     </div>
   )
