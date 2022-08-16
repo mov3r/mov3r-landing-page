@@ -93,7 +93,8 @@ export const WaitlistForm: FC<WaitlistFormProps> = ({className, status, user, ch
         className={styles.input}
         onChange={(event) => onChange?.(event.target.value)}
       />
-      <Button onClick={handleFormSubmit} disabled={!email || !isValid} loading={status === 'sending'}>
+      <Button onClick={handleFormSubmit}
+              loading={status === 'sending'}>
         Join Waitlist <ArrowIcon className={styles.arrowIcon}/>
       </Button>
     </form>

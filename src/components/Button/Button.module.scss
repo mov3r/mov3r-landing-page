@@ -1,0 +1,53 @@
+@import "../../styles/variables";
+.Button {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  border: 2px solid rgba($primary, .5);
+  border-radius: 44px;
+  font-size: inherit;
+  user-select: none;
+  cursor: pointer;
+  background: rgba($primary, .6);
+  backdrop-filter: blur(80px);
+  color: $invert-muted;
+  height: 48px;
+  min-width: 175px;
+  padding: 0 2em;
+  white-space: nowrap;
+  transition: .3s ease-in-out;
+
+  &:disabled {
+    cursor: default;
+    color: $invert-muted;
+    background: rgba($primary, .5);
+    backdrop-filter: unset;
+  }
+  &:hover {
+    background: $primary;
+    backdrop-filter: none;
+  }
+
+  &:active {
+    color: $invert;
+    background: rgba($primary, .5);
+    backdrop-filter: blur(80px);
+  }
+
+  &.loading {
+    cursor: wait;
+
+    .inner {
+      color: transparent;
+    }
+  }
+}
+
+.spinner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  color: #8f8f8f;
+}

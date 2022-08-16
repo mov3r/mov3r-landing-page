@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react'
 import cn from 'classnames'
 import { Spinner } from '../Spinner/Spinner';
-import './Button.scss'
+import styles from './Button.module.scss'
 
 type ButtonProps = {
   children: ReactNode | string
@@ -10,17 +10,20 @@ type ButtonProps = {
   onClick: () => void
 }
 
-export const Button: FC<ButtonProps> = ({ children, disabled, loading, onClick }) => {
+export const Button: FC<ButtonProps> = (
+  { children,
+    disabled,
+    loading,
+    onClick
+  }) => {
   return (
     <button
       onClick={onClick}
       disabled={disabled || loading}
-      className={cn('Button', loading ? 'loading' : '')}
+      className={cn(styles.Button, styles.loading, {[styles.loading]: loading})}
     >
-      <div className="inner">
-        {children}
-        {loading && <Spinner className='spinner' />}
-      </div>
+      {children}
+      {loading && <Spinner className={styles.spinner} />}
     </button>
   )
 }

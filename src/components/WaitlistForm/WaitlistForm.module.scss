@@ -1,3 +1,4 @@
+@import "../../styles/variables";
 .wrapper {
   max-width: 480px;
   margin: 0 auto;
@@ -7,31 +8,13 @@
   display: flex;
   align-items: center;
   position: relative;
-  padding: 5px;
+  padding: 4px;
   border-radius: 58px;
-  background: rgba(#fff, .1);
-  color: var(--color-text);
+  color: $invert;
   transition: background 0.25s;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 50px;
-    border: 2px solid rgba(#fff, 0.7);
-    // border: 2px solid transparent;
-    background: linear-gradient(115deg, rgba(#fff, 0.7), rgba(#fff, 0)) border-box;
-    // -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-    // -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-  }
-
-  &:focus-within {
-    background: rgba(#fff, .6);
-  }
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0.21%, rgba(255, 255, 255, 0.32) 99.79%);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(80px);
 }
 
 .input {
