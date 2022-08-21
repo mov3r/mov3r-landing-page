@@ -17,13 +17,19 @@
   padding: 0 2em;
   white-space: nowrap;
   transition: .3s ease-in-out;
+  justify-content: center;
 
   &:disabled {
-    cursor: default;
     color: $invert-muted;
     background: rgba($primary, .5);
     backdrop-filter: unset;
+    cursor: not-allowed;
+    &:hover {
+      color: $invert-muted;
+      background: rgba($primary, .5);
+    }
   }
+
   &:hover {
     background: $primary;
     backdrop-filter: none;

@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from "react-router-dom"
 import { Background } from './components/Background/Background'
-import { HomeScreen } from './components/HomeScreen/HomeScreen'
+import HomeScreen from './components/HomeScreen'
 import './App.scss'
 
 function App() {

@@ -1,96 +1,99 @@
-import {FC, useCallback, useEffect, useState} from 'react'
-import cn from 'classnames'
-import {User} from '@supabase/supabase-js';
-import {fetchUser} from '../../utils/auth'
+import React from 'react'
 import {Logo} from '../Logo/Logo';
-import {WaitlistForm} from '../WaitlistForm/WaitlistForm';
-import {Spinner} from '../Spinner/Spinner';
-import {Social} from '../Social/Social';
+import WaitlistForm from '../WaitlistForm';
+// import {Spinner} from '../Spinner/Spinner';
+import Social from '../Social';
+import {useDispatch, useSelector} from 'react-redux';
+import {setReferralLink, User} from '../../store/userSlice';
+import {setSlug, setRank, setConfirmed} from '../../store/userSlice';
+import axios from 'axios';
 import styles from './HomeScreen.module.scss'
-import {supabase} from "../../libs/supabaseClient";
+import CopyReferralLink from '../CopyReferralLink';
 
-export const HomeScreen: FC = () => {
-  const [status, setStatus] = useState('start')
-  const [isUserLoaded, setUserLoadedSatus] = useState(false)
-  const [user, setUser] = useState<User>()
-  const [referralRank, setReferralRank] = useState('')
+const HomeScreen: React.FC = () => {
+  const dispatch = useDispatch();
+  const [linkType, setLinkType] = React.useState<string | undefined>(undefined)
+  const [secret, setSecret] = React.useState<string | undefined>(undefined)
+  const [error, setError] = React.useState<string | undefined>(undefined)
+  const url = new URL(window.location.href);
+  const urlPaths: string[] = url.pathname.split('/').splice(1)
+  const isEmailSent = useSelector((state: User) => state.user.isEmailSent)
+  const slug = useSelector((state: User) => state.user.slug)
+  const rank = useSelector((state: User) => state.user.rank)
 
-  const getUser: () => Promise<string | null> = useCallback(() => {
-    return new Promise(() => {
-      const response = fetchUser()
-      if (response) {
-        setUser(response)
-      }
-    })
+  console.log('!!! isEmailSent:', isEmailSent)
+
+  React.useEffect(() => {
+    switch (true) {
+      case urlPaths[0] === 'c':
+        setLinkType('confirmation')
+        dispatch(setSlug(urlPaths[1]))
+        setSecret(urlPaths[2])
+        localStorage.setItem('slug', urlPaths[1])
+        window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
+        break;
+      case urlPaths[0] === 'r': setLinkType('referral')
+        break;
+      case urlPaths[0] === 'w': setLinkType('waitlist')
+        break;
+    }
   }, [])
 
-  setTimeout(() => {
-    getUser()
-    setUserLoadedSatus(true)
-  }, 500);
-
-  useEffect(() => {
-    if (!user) return
-    console.log("Requesting user rank...")
-    getUserRank(user.id)
-  }, [user])
-
-  const getUserRank = async (userId: string) => {
-    if (!supabase) return
-    try {
-      let {data: rank, error} = await supabase.rpc('get_referral_rank', {"target_user_id": userId})
-      if (error) console.error(error)
-      else {
-        if (rank) {
-          console.log("Rank is " + rank)
-          setReferralRank(rank.toString())
-        } else {
-          // we aren't in leaderboard, assume our place = total leaderboard size + 1
-          let {data: totalCount, error} = await supabase.rpc('get_referrer_count')
-          if (error) console.error(error)
-          else {
-            if (totalCount) {
-              let rank = Number.parseInt(totalCount.toString()) + 1;
-              console.log("Rank is " + rank)
-              setReferralRank(rank.toString())
-            }
-          }
-        }
+  if (linkType === 'confirmation') {
+    axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
+      slug,
+      secret
+    }).then((response) => {
+      dispatch(setConfirmed(true))
+      dispatch(setRank(response.data.position))
+      dispatch(setReferralLink(response.data.reflink))
+    }).catch((error) => {
+      setError(error.response.data.error)
+      if (error.response.data.error === 'Already confirmed') {
+        dispatch(setConfirmed(true))
+        axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
+          params: {slug : slug},
+        }).then((response) => {
+          dispatch(setRank(response.data.position))
+          dispatch(setReferralLink(response.data.reflink))
+          window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
+        }).catch((error) => {
+          console.log('!!! error:', error)
+        })
       }
-    } catch (e) {
-      console.log(e, "Error when requesting rank")
-    }
+    })
   }
-
-  const initialContent = (
-    <>
-      {!user && <h1 className={styles.title}>The first Aptos bridge<br/>and cross-chain messaging protocol</h1>}
-      {user ?
-        <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p> :
-        <p className={styles.text}>Join the WaitList to be the first<br/> to access the platform.</p>
-      }
-      {user && referralRank &&
-          <p className={cn(styles.rank)}>Your Rank: <b className={styles.rankCount}>{referralRank}</b></p>}
-      <WaitlistForm className={styles.form} user={user} status={status}
-                    changeStatusFunc={(status) => setStatus(status)}/>
-    </>
-  )
-
-  const finalContent = (
-    <>
-      <h1 className={styles.title}>Thanks for signing up!</h1>
-      <p className={styles.text}>A verification email has been sent to you.<br/>Please verify your email to secure your
-        spot on the waitlist.</p>
-    </>
-  )
-
-  const content = status === 'sent' ? finalContent : initialContent
 
   return (
     <div className={styles.home}>
       <Logo className={styles.logo}/>
-      {isUserLoaded ? content : <div className={styles.spinner}><Spinner/></div>}
+        {isEmailSent && !error ? (
+          <>
+            <h1 className={styles.title}>Thanks for signing up!</h1>
+            <p className={styles.text}>
+              A verification email has been sent to you.
+              <br/>Please verify your email to secure your
+              spot on the waitlist.</p>
+          </>
+        ) : (
+          <>
+            {slug ?
+              <>
+                <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p>
+                <div className={styles.rank}>Your rank: <span>{rank}</span></div>
+              </>
+              :
+              <>
+                <h1 className={styles.title}>The first Aptos bridge<br/>and cross-chain messaging protocol</h1>
+                <p className={styles.text}>Join the WaitList to be the first<br/> to access the platform.</p>
+              </>
+            }
+            { rank ? <CopyReferralLink className={styles.form}/> : <WaitlistForm className={styles.form}/> }
+          </>
+        )}
       <Social networks={['discord', 'github', 'twitter']} className={styles.social}/>
     </div>
   )
 }
+
+export default React.memo(HomeScreen)
