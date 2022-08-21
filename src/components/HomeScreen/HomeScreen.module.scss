@@ -5,33 +5,43 @@
   .logo {
     font-size: 140px;
     vertical-align: bottom;
-  
+
     @media only screen and (max-width: 800px) {
       font-size: 80px;
     }
-  
+
     @media only screen and (max-width: 480px) {
       font-size: 60px;
     }
   }
-  
+
   .title {
     line-height: 1.44;
     margin: 28px 0;
     text-transform: uppercase;
   }
-  
+
   .text {
     margin: 28px 0;
     line-height: 1.44;
     font-size: 18px;
     text-transform: uppercase;
   }
-  
+
+  .rank {
+    white-space: nowrap;
+    > span {
+      font-weight: 700;
+      font-size: 34px;
+      padding-left: 10px;
+
+    }
+  }
+
   .form {
     margin-top: 36px;
   }
-  
+
   .social {
     margin-top: 48px;
   }

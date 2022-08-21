@@ -1,6 +1,6 @@
-import { FC, ReactNode } from 'react'
-import cn from 'classnames'
+import React, { FC, ReactNode } from 'react'
 import { Spinner } from '../Spinner/Spinner';
+import cn from 'classnames';
 import styles from './Button.module.scss'
 
 type ButtonProps = {
@@ -8,22 +8,26 @@ type ButtonProps = {
   disabled?: boolean
   loading?: boolean
   onClick: () => void
+  className?: string
 }
 
-export const Button: FC<ButtonProps> = (
+const Button: FC<ButtonProps> = (
   { children,
     disabled,
     loading,
-    onClick
+    onClick,
+    className
   }) => {
   return (
     <button
       onClick={onClick}
-      disabled={disabled || loading}
-      className={cn(styles.Button, styles.loading, {[styles.loading]: loading})}
+      disabled={disabled}
+      className={cn(styles.Button, className, {[styles.loading]: loading})}
     >
       {children}
       {loading && <Spinner className={styles.spinner} />}
     </button>
   )
 }
+
+export default React.memo(Button)

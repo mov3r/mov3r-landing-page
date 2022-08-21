@@ -1,8 +1,4 @@
 @import "../../styles/variables";
-.wrapper {
-  max-width: 480px;
-  margin: 0 auto;
-}
 
 .form {
   display: flex;
@@ -37,8 +33,30 @@
   }
 }
 
-.button {
+.copyIcon {
+  width: 12px;
+}
+
+.referralLink {
+  flex: 1;
   position: relative;
+  height: 28px;
+  line-height: 28px;
+  margin: 0 8px 0 28px;
+}
+
+.referralLinkText {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.button {
+  min-width: 140px;
+  align-items: center;
 }
 
 .arrowIcon, .copyIcon {
@@ -47,14 +65,4 @@
 
 .arrowIcon {
   width: 16px;
-}
-
-.messageWrapper {
-  margin: 8px 0 0;
-  min-height: 28px;
-}
-
-.errorMessage {
-  color: #ff00a1;
-  text-shadow: 1px 1px 3px #000;
 }

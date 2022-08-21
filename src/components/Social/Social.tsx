@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 import cn from 'classnames'
 import { ReactComponent as DiscordIcon } from '../../assets/discord.svg';
 import { ReactComponent as GithubIcon } from '../../assets/git.svg';
@@ -11,7 +11,7 @@ type SocialProps = {
   className?: string
 }
 
-export const Social: FC<SocialProps> = ({ networks, className }) => {
+const Social: FC<SocialProps> = ({ networks, className }) => {
   return (
     <div className={cn(styles.wrapper, className)}>
       {networks.includes('discord') && <a href="https://discord.gg/pjUCVvfj" target="_blank" rel="noreferrer noopener">
@@ -29,3 +29,5 @@ export const Social: FC<SocialProps> = ({ networks, className }) => {
     </div>
   )
 }
+
+export default React.memo(Social)
