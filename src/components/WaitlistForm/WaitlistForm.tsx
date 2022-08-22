@@ -70,7 +70,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
         <HCaptcha
           ref={captcha}
           theme="dark"
-          sitekey={`${process.env.REACT_APP_RECAPTCHA_HEY}`}
+          sitekey={`${process.env.REACT_APP_HCAPTCHA_KEY}`}
           onVerify={token => setToken(token)}
           onExpire={() => setToken(undefined)}
         />
