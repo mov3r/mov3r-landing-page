@@ -15,6 +15,15 @@
     }
   }
 
+  .container {
+    transition: .3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 377px;
+  }
+
   .title {
     line-height: 1.44;
     margin: 28px 0;
