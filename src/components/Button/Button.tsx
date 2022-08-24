@@ -1,5 +1,4 @@
 import React, { FC, ReactNode } from 'react'
-import { Spinner } from '../Spinner/Spinner';
 import cn from 'classnames';
 import styles from './Button.module.scss'
 
@@ -25,7 +24,6 @@ const Button: FC<ButtonProps> = (
       className={cn(styles.Button, className, {[styles.loading]: loading})}
     >
       {children}
-      {loading && <Spinner className={styles.spinner} />}
     </button>
   )
 }
