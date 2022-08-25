@@ -9,7 +9,7 @@ import axios from 'axios';
 import styles from './HomeScreen.module.scss'
 import CopyReferralLink from '../CopyReferralLink';
 import Spinner from '../Spinner';
-import loaderSlice, {Loading, setLoading} from '../../store/loaderSlice';
+import {Loading, setLoading} from '../../store/loaderSlice';
 
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const HomeScreen: React.FC = () => {
         dispatch(setSlug(urlPaths[1]))
         setSecret(urlPaths[2])
         localStorage.setItem('slug', urlPaths[1])
-        window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
+        // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
       case urlPaths[0] === 'r': setLinkType('referral')
         break;
@@ -51,21 +51,23 @@ const HomeScreen: React.FC = () => {
       dispatch(setLoading(false))
     }).catch((error) => {
       setError(error.response.data.error)
-      if (error.response.data.error === 'Already confirmed') {
-        dispatch(setConfirmed(true))
-        axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
-          params: {slug : slug},
-        }).then((response) => {
-          dispatch(setLoading(false))
-          dispatch(setRank(response.data.position))
-          dispatch(setReferralLink(response.data.reflink))
-          window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
-        }).catch((error) => {
-          dispatch(setLoading(false))
-          console.log('!!! error:', error)
-        })
-      }
     })
+  } else if (linkType === 'waitlist') {
+    // проверяем свою позицию в рейтинге
+      axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
+        params: {slug :  urlPaths[1]},
+      }).then((response) => {
+        dispatch(setLoading(false))
+        dispatch(setRank(response.data.position))
+        dispatch(setReferralLink(response.data.reflink))
+        window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
+      }).catch((error) => {
+        dispatch(setLoading(false))
+        console.log('!!! error:', error)
+      })
+  } else {
+      // https://mov3r.xyz/w/{entry.slug}
+      // показывать форму регистрации но слать поле referrer:"{entry.slug}"
   }
 
   return (
