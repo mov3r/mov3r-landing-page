@@ -31,7 +31,7 @@ const HomeScreen: React.FC = () => {
         setLinkType('confirmation')
         dispatch(setSlug(urlPaths[1]))
         setSecret(urlPaths[2])
-        // localStorage.setItem('slug', urlPaths[1])
+        localStorage.setItem('slug', urlPaths[1])
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
       case urlPaths[0] === 'r': setLinkType('referral')
@@ -41,6 +41,8 @@ const HomeScreen: React.FC = () => {
         break;
     }
   }, [])
+
+  console.log('!!! linkType:', linkType)
 
   React.useEffect(() => {
     if (linkType === 'confirmation') {
@@ -55,11 +57,16 @@ const HomeScreen: React.FC = () => {
         dispatch(setLoading(false))
         return
       }).catch((error) => {
+        if (error.response.data.error === 'Already confirmed') {
+          dispatch(setLoading(true))
+          setLinkType('waitlist')
+        }
         dispatch(setLoading(false))
         dispatch(setError(error.response.data.error))
         return
       })
     } else if (linkType === 'waitlist') {
+      dispatch(setLoading(false))
       // проверяем свою позицию в рейтинге
       axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
         params: {slug :  urlPaths[1]},
