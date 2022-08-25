@@ -27,7 +27,9 @@ const CopyReferralLink: React.FC<Props> = (props) => {
   return (
     <div className={styles.CopyReferralLink}>
         <div className={cn(styles.form, props.className)}>
-           <span className={styles.referralLink}><span className={styles.referralLinkText}>{referralLink}</span></span>
+           <span className={styles.referralLink}>
+             <span className={styles.referralLinkText}>{referralLink}</span>
+           </span>
            <Button onClick={copyLink} className={styles.button} disabled={isCopied}>
              {isCopied ? <>Copied ✔️</> : <>Copy <CopyIcon className={styles.copyIcon}/></>}
            </Button>

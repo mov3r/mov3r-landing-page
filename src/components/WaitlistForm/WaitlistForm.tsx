@@ -3,14 +3,16 @@ import cn from 'classnames'
 import Button from '../Button';
 import {ReactComponent as ArrowIcon} from '../../assets/arrow.svg';
 import axios from 'axios';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {isEmailSent} from '../../store/userSlice';
 import styles from './WaitlistForm.module.scss'
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import {setLoading} from '../../store/loaderSlice';
+import {setLoading, setError} from '../../store/serviceSlice';
 
 type WaitlistFormProps = {
   className?: string
+  error?: string
+  fromReferral?: string
 }
 
 const isValidEmail = (email:string) => {
@@ -19,13 +21,13 @@ const isValidEmail = (email:string) => {
 
 const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
   const [email, setEmail] = React.useState<string>('')
-  const [error, setError] = React.useState<string | undefined>(undefined)
   const [token, setToken] = React.useState<string | undefined>(undefined);
   const [showCaptha, setShowCaptha] = React.useState<boolean>(false);
   const captcha = React.useRef<HCaptcha>(null);
   const dispatch = useDispatch();
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setError(undefined)
+    dispatch(setError(undefined))
     setEmail(event.target.value)
   }
   const handleFormSubmit = async () => {
@@ -37,17 +39,15 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     dispatch(setLoading(true))
     axios.post(`${process.env.REACT_APP_API_URL}/waitlist/add/`, {
       hcaptcha: token,
-      email: email
+      email: email,
+      referrer: props.fromReferral
     }).then(() => {
       dispatch(isEmailSent(true))
       dispatch(setLoading(false))
     }).catch(function (error) {
-      // не отробатывает ошибка
-
-      console.log('!!! EEE:', error.response.data.error)
-      setError(error.response.data.error)
       dispatch(isEmailSent(false))
       dispatch(setLoading(false))
+      dispatch(setError(error.response.data.error))
     }).finally(() => {
       if (captcha.current) captcha.current.resetCaptcha();
       setToken(undefined);
@@ -67,13 +67,14 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
           onChange={handleInputChange}
         />
         <Button
-          disabled={!email || Boolean(error) || showCaptha && !token}
+          disabled={!email || Boolean(props.error) || showCaptha && !token}
           onClick={handleFormSubmit}>
           Join Waitlist <ArrowIcon className={styles.arrowIcon}/>
         </Button>
       </div>
+
       <div className={styles.messageWrapper}>
-        {error && <div className={styles.errorMessage}>{error}</div>}
+        {props.error && <div className={styles.errorMessage}>{props.error}</div>}
       </div>
       <div className={styles.hcaptcha}>
         {showCaptha && (

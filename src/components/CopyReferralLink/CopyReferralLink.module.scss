@@ -6,6 +6,7 @@
   position: relative;
   padding: 4px;
   border-radius: 58px;
+  min-width: 400px;
   color: $invert;
   transition: background 0.25s;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0.21%, rgba(255, 255, 255, 0.32) 99.79%);
