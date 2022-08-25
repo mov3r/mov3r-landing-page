@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit'
 import userSlice from './userSlice';
-import loaderSlice from './loaderSlice';
+import serviceSlice from './serviceSlice';
 
 export default configureStore({
   reducer: {
     user: userSlice,
-    loader: loaderSlice
+    service: serviceSlice
   }
 })

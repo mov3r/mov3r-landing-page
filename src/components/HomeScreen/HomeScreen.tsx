@@ -9,19 +9,21 @@ import axios from 'axios';
 import styles from './HomeScreen.module.scss'
 import CopyReferralLink from '../CopyReferralLink';
 import Spinner from '../Spinner';
-import {Loading, setLoading} from '../../store/loaderSlice';
+import {Service, setLoading, setError} from '../../store/serviceSlice';
 
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [linkType, setLinkType] = React.useState<string | undefined>(undefined)
   const [secret, setSecret] = React.useState<string | undefined>(undefined)
-  const [error, setError] = React.useState<string | undefined>(undefined)
+  const [referrer, setReferrer] = React.useState<string | undefined>(undefined)
   const url = new URL(window.location.href);
   const urlPaths: string[] = url.pathname.split('/').splice(1)
   const isEmailSent = useSelector((state: User) => state.user.isEmailSent)
   const slug = useSelector((state: User) => state.user.slug)
   const rank = useSelector((state: User) => state.user.rank)
-  const loading = useSelector((state: Loading) => state.loader.loading)
+  const loading = useSelector((state: Service) => state.service.loading)
+  const referralLink = useSelector((state: User) => state.user.referralLink)
+  const error = useSelector((state: Service) => state.service.error)
 
   React.useEffect(() => {
     switch (true) {
@@ -29,46 +31,50 @@ const HomeScreen: React.FC = () => {
         setLinkType('confirmation')
         dispatch(setSlug(urlPaths[1]))
         setSecret(urlPaths[2])
-        localStorage.setItem('slug', urlPaths[1])
+        // localStorage.setItem('slug', urlPaths[1])
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
       case urlPaths[0] === 'r': setLinkType('referral')
+        setReferrer(urlPaths[1])
         break;
       case urlPaths[0] === 'w': setLinkType('waitlist')
         break;
     }
   }, [])
 
-  if (linkType === 'confirmation') {
-    dispatch(setLoading(true))
-    axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
-      slug,
-      secret
-    }).then((response) => {
-      dispatch(setConfirmed(true))
-      dispatch(setRank(response.data.position))
-      dispatch(setReferralLink(response.data.reflink))
-      dispatch(setLoading(false))
-    }).catch((error) => {
-      setError(error.response.data.error)
-    })
-  } else if (linkType === 'waitlist') {
-    // проверяем свою позицию в рейтинге
+  React.useEffect(() => {
+    if (linkType === 'confirmation') {
+      dispatch(setLoading(true))
+      axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
+        slug,
+        secret
+      }).then((response) => {
+        dispatch(setConfirmed(true))
+        dispatch(setRank(response.data.position))
+        dispatch(setReferralLink(response.data.reflink))
+        dispatch(setLoading(false))
+        return
+      }).catch((error) => {
+        dispatch(setLoading(false))
+        dispatch(setError(error.response.data.error))
+        return
+      })
+    } else if (linkType === 'waitlist') {
+      // проверяем свою позицию в рейтинге
       axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
         params: {slug :  urlPaths[1]},
       }).then((response) => {
         dispatch(setLoading(false))
         dispatch(setRank(response.data.position))
         dispatch(setReferralLink(response.data.reflink))
-        window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
+        // window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
       }).catch((error) => {
         dispatch(setLoading(false))
         console.log('!!! error:', error)
       })
-  } else {
-      // https://mov3r.xyz/w/{entry.slug}
-      // показывать форму регистрации но слать поле referrer:"{entry.slug}"
-  }
+    }
+  }, [linkType])
+
 
   return (
     <div className={styles.home}>
@@ -85,7 +91,7 @@ const HomeScreen: React.FC = () => {
             </>
           ) : (
             <>
-              {slug ?
+              { linkType === 'waitlist' ?
                 <>
                   <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p>
                   <div className={styles.rank}>Your rank: <span>{rank}</span></div>
@@ -96,7 +102,15 @@ const HomeScreen: React.FC = () => {
                   <p className={styles.text}>Join the WaitList to be the first<br/> to access the platform.</p>
                 </>
               }
-              { rank ? <CopyReferralLink className={styles.form}/> : <WaitlistForm className={styles.form}/> }
+              { referralLink ?
+                <CopyReferralLink className={styles.form}/>
+                :
+                <WaitlistForm
+                  fromReferral={referrer}
+                  error={error}
+                  className={styles.form}
+                />
+              }
             </>
           )
         )}
