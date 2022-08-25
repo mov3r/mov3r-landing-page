@@ -28,6 +28,9 @@
       color: $invert-muted;
       background: rgba($primary, .5);
     }
+    @media screen and (min-width: 480px) {
+      background: rgba($primary, .8);
+    }
   }
 
   &:hover {

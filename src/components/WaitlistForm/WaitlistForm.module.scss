@@ -18,7 +18,7 @@
   backdrop-filter: blur(80px);
 }
 
-.input {
+.field {
   flex: 1;
   position: relative;
   width: 100px;
@@ -33,6 +33,11 @@
   font-size: 16px;
   font-family: inherit;
 
+  @media screen and (min-width: 480px) {
+    width: 100%;
+
+  }
+
   &::placeholder {
     color: var(--color-text-secondary);
   }
@@ -40,6 +45,15 @@
 
 .button {
   position: relative;
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -77px;
+    background-color: #fff;
+    height: 60px;
+    //text-transform: uppercase;
+  }
 }
 
 .arrowIcon, .copyIcon {
@@ -56,9 +70,19 @@
 }
 
 .errorMessage {
-  color: #ff00a1;
-  text-shadow: 1px 1px 3px #000;
+  color: $primary;
+  font-size: 1.5rem;
+
+  &::before {
+    content: '❌ ';
+    text-shadow: 0 1px 0 rgba($primary, .5);
+  }
+
+  @media screen and (max-width: 480px) {
+    margin-top: 78px;
+  }
 }
+
 .hcaptcha {
   margin: 16px 0 0;
   width: 100%;

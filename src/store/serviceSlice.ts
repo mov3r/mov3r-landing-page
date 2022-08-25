@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 export interface Service {
   service: {
     loading: boolean,
+
     error?: string
   }
 }

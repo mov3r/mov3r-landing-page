@@ -28,13 +28,16 @@
     line-height: 1.44;
     margin: 28px 0;
     text-transform: uppercase;
+    @media only screen and (max-width: 480px) {
+      margin-top: 70px;
+    }
   }
 
   .text {
     margin: 28px 0;
     line-height: 1.44;
     font-size: 18px;
-    text-transform: uppercase;
+    //text-transform: uppercase;
   }
 
   .rank {

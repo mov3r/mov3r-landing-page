@@ -76,8 +76,10 @@ const HomeScreen: React.FC = () => {
         dispatch(setReferralLink(response.data.reflink))
         // window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
       }).catch((error) => {
-        dispatch(setLoading(false))
+        window.location.href= '/'
         console.log('!!! error:', error)
+      }).finally(() => {
+        dispatch(setLoading(false))
       })
     }
   }, [linkType])
