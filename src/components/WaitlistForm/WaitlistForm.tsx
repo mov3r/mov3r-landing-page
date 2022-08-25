@@ -29,10 +29,6 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     setEmail(event.target.value)
   }
   const handleFormSubmit = async () => {
-    if (!isValidEmail(email)) {
-      setError('Email is invalid')
-      return
-    }
     setShowCaptha(true)
   }
 
@@ -46,7 +42,10 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
       dispatch(isEmailSent(true))
       dispatch(setLoading(false))
     }).catch(function (error) {
-      setError(error.response.data.error ? error.response.data.error : error.message)
+      // не отробатывает ошибка
+
+      console.log('!!! EEE:', error.response.data.error)
+      setError(error.response.data.error)
       dispatch(isEmailSent(false))
       dispatch(setLoading(false))
     }).finally(() => {
