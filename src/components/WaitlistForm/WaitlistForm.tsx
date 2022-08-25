@@ -33,6 +33,12 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
   const handleFormSubmit = async () => {
     setShowCaptha(true)
   }
+  const handleValidate = () => {
+    if (!isValidEmail(email)) {
+      dispatch(setError('Invalid email format'))
+
+    }
+  }
 
   React.useEffect(() => {
     if (!token) return
@@ -65,6 +71,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
           required
           className={styles.input}
           onChange={handleInputChange}
+          onBlur={handleValidate}
         />
         <Button
           disabled={!email || Boolean(props.error) || showCaptha && !token}

@@ -56,8 +56,12 @@
 }
 
 .errorMessage {
-  color: #ff00a1;
-  text-shadow: 1px 1px 3px #000;
+  color: $primary;
+  font-size: 1.5rem;
+  &::before {
+    content: '❌ ';
+    text-shadow: 0 1px 0 rgba($primary, .5);
+  }
 }
 .hcaptcha {
   margin: 16px 0 0;
