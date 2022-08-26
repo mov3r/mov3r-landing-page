@@ -25,6 +25,7 @@ const HomeScreen: React.FC = () => {
   const error = useSelector((state: Service) => state.service.error)
   const linkType = useSelector((state: Service) => state.service.linkType)
 
+  console.log('!!! TEST:')
   React.useEffect(() => {
     switch (true) {
       case urlPaths[0] === 'c':
