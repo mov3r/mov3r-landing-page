@@ -101,7 +101,7 @@ const HomeScreen: React.FC = () => {
             </>
           ) : (
             <>
-              { linkType === 'waitlist' && rank ?
+              { rank ?
                 <>
                   <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p>
                   <div className={styles.rank}>Your rank: <span>{rank}</span></div>
