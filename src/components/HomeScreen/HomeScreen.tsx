@@ -28,6 +28,7 @@ const HomeScreen: React.FC = () => {
   React.useEffect(() => {
     switch (true) {
       case urlPaths[0] === 'c':
+        console.log('!!! confirmation:', urlPaths)
         dispatch(setLinkType('confirmation'))
         dispatch(setSlug(urlPaths[1]))
         dispatch(setSecret(urlPaths[2]))
