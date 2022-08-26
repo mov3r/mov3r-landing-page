@@ -23,9 +23,7 @@ const HomeScreen: React.FC = () => {
   const referralLink = useSelector((state: User) => state.user.referralLink)
   const error = useSelector((state: Service) => state.service.error)
   const linkType = useSelector((state: Service) => state.service.linkType)
-  // const [linkType, setLinkType] = React.useState<string>('')
   const url = new URL(window.location.href);
-  // setUrlPaths(url.pathname.split('/').splice(1))
 
   React.useEffect(() => {
     const urlPaths = url.pathname.split('/').splice(1)
@@ -40,6 +38,7 @@ const HomeScreen: React.FC = () => {
         break;
       case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
+        console.log('!!! REF:', referrer)
         break;
       case urlPaths[0] === 'w':
         dispatch(setLinkType('waitlist'))
