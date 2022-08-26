@@ -25,12 +25,8 @@
   }
 
   .title {
-    line-height: 1.44;
     margin: 28px 0;
     text-transform: uppercase;
-    @media only screen and (max-width: 480px) {
-      margin-top: 70px;
-    }
   }
 
   .text {
@@ -38,6 +34,9 @@
     line-height: 1.34;
     font-size: 32px;
     font-weight: 600;
+    @media only screen and (max-width: 480px) {
+      font-size: 20px;
+    }
   }
 
   .rank {
