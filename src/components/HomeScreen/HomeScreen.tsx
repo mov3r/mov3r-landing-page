@@ -26,10 +26,8 @@ const HomeScreen: React.FC = () => {
   const linkType = useSelector((state: Service) => state.service.linkType)
 
   React.useEffect(() => {
-    console.log('!!! urlPaths:', urlPaths)
     switch (true) {
       case urlPaths[0] === 'c':
-        console.log('!!! confirmation:')
         dispatch(setLinkType('confirmation'))
         dispatch(setSlug(urlPaths[1]))
         dispatch(setSecret(urlPaths[2]))
@@ -45,7 +43,6 @@ const HomeScreen: React.FC = () => {
   }, [])
 
   React.useEffect(() => {
-    console.log('!!! secret:', secret)
     if (linkType === 'confirmation') {
       dispatch(setLoading(true))
       axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
@@ -112,7 +109,7 @@ const HomeScreen: React.FC = () => {
                   <p className={styles.text}>
                     Join the waitlist to be the first
                     <br/>
-                    to access our Private Aalpha
+                    to access our Private Alpha
                   </p>
                 </>
               }
