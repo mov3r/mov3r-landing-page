@@ -25,7 +25,7 @@ const HomeScreen: React.FC = () => {
   const error = useSelector((state: Service) => state.service.error)
   const linkType = useSelector((state: Service) => state.service.linkType)
 
-  console.log('!!! TEST:')
+  console.log('!!! TEST:', urlPaths)
   React.useEffect(() => {
     switch (true) {
       case urlPaths[0] === 'c':
@@ -42,7 +42,7 @@ const HomeScreen: React.FC = () => {
       case urlPaths[0] === 'w': dispatch(setLinkType('waitlist'))
         break;
     }
-  }, [])
+  }, [urlPaths])
 
   React.useEffect(() => {
     if (linkType === 'confirmation') {
