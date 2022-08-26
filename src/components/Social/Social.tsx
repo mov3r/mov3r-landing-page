@@ -17,7 +17,7 @@ const Social: FC<SocialProps> = ({ networks, className }) => {
       {networks.includes('discord') && <a href="https://discord.gg/pjUCVvfj" target="_blank" rel="noreferrer noopener">
         <DiscordIcon />
       </a>}
-      {networks.includes('github') && <a href="/#" target="_blank" rel="noreferrer noopener">
+      {networks.includes('github') && <a href="https://github.com/mov3r" target="_blank" rel="noreferrer noopener">
         <GithubIcon />
       </a>}
       {networks.includes('twitter') && <a href="https://twitter.com/moverxyz" target="_blank" rel="noreferrer noopener">
