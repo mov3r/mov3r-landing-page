@@ -4,6 +4,7 @@ export interface User {
   user: {
     isEmailSent: boolean,
     slug?: string,
+    secret?: string,
     rank?: number,
     verified: boolean,
     referralLink?: string
@@ -16,6 +17,7 @@ const userSlice = createSlice({
     isEmailSent: false,
     slug: undefined,
     rank: undefined,
+    secret: undefined,
     confirmed: false,
     referralLink: undefined
   },
@@ -29,6 +31,9 @@ const userSlice = createSlice({
     setRank(state, action) {
       state.rank = action.payload
     },
+    setSecret(state, action) {
+      state.secret = action.payload
+    },
     setConfirmed(state, action) {
       state.confirmed = action.payload
     },
@@ -38,5 +43,12 @@ const userSlice = createSlice({
   }
 })
 
-export const {isEmailSent, setSlug, setRank, setConfirmed, setReferralLink} = userSlice.actions
+export const {
+  isEmailSent,
+  setSlug,
+  setSecret,
+  setRank,
+  setConfirmed,
+  setReferralLink
+} = userSlice.actions
 export default userSlice.reducer

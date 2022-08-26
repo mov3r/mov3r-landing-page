@@ -4,21 +4,21 @@ import WaitlistForm from '../WaitlistForm';
 import Social from '../Social';
 import {useDispatch, useSelector} from 'react-redux';
 import {setReferralLink, User} from '../../store/userSlice';
-import {setSlug, setRank, setConfirmed} from '../../store/userSlice';
+import {setSlug, setSecret, setRank, setConfirmed} from '../../store/userSlice';
+import {Service, setLoading, setError, setLinkType} from '../../store/serviceSlice';
 import axios from 'axios';
 import styles from './HomeScreen.module.scss'
 import CopyReferralLink from '../CopyReferralLink';
 import Spinner from '../Spinner';
-import {Service, setLoading, setError, setLinkType} from '../../store/serviceSlice';
 
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const [secret, setSecret] = React.useState<string | undefined>(undefined)
   const [referrer, setReferrer] = React.useState<string | undefined>(undefined)
   const url = new URL(window.location.href);
   const urlPaths: string[] = url.pathname.split('/').splice(1)
   const isEmailSent = useSelector((state: User) => state.user.isEmailSent)
   const slug = useSelector((state: User) => state.user.slug)
+  const secret = useSelector((state: User) => state.user.secret)
   const rank = useSelector((state: User) => state.user.rank)
   const loading = useSelector((state: Service) => state.service.loading)
   const referralLink = useSelector((state: User) => state.user.referralLink)
@@ -26,11 +26,13 @@ const HomeScreen: React.FC = () => {
   const linkType = useSelector((state: Service) => state.service.linkType)
 
   React.useEffect(() => {
+    console.log('!!! urlPaths:', urlPaths)
     switch (true) {
       case urlPaths[0] === 'c':
+        console.log('!!! confirmation:')
         dispatch(setLinkType('confirmation'))
         dispatch(setSlug(urlPaths[1]))
-        setSecret(urlPaths[2])
+        dispatch(setSecret(urlPaths[2]))
         localStorage.setItem('slug', urlPaths[1])
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
@@ -43,6 +45,7 @@ const HomeScreen: React.FC = () => {
   }, [])
 
   React.useEffect(() => {
+    console.log('!!! secret:', secret)
     if (linkType === 'confirmation') {
       dispatch(setLoading(true))
       axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
@@ -98,7 +101,7 @@ const HomeScreen: React.FC = () => {
             </>
           ) : (
             <>
-              { linkType === 'waitlist' ?
+              { linkType === 'waitlist' && rank ?
                 <>
                   <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p>
                   <div className={styles.rank}>Your rank: <span>{rank}</span></div>

@@ -64,6 +64,21 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     })
   }, [token])
 
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
+
+  React.useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (document.activeElement === inputRef.current && (event.code === "Enter" || event.code === "NumpadEnter")) {
+        console.log("Enter key was pressed. Run your function.");
+        event.preventDefault();
+        handleFormSubmit();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, []);
   return (
     <div className={cn(styles.wrapper, props.className)}>
       <div className={styles.form}>
@@ -72,6 +87,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
           type='email'
           name='email'
           required
+          ref={inputRef}
           className={styles.field}
           onChange={handleInputChange}
         />
