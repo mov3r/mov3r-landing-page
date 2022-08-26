@@ -42,8 +42,6 @@ const HomeScreen: React.FC = () => {
     }
   }, [])
 
-  console.log('!!! linkType:', linkType)
-
   React.useEffect(() => {
     if (linkType === 'confirmation') {
       dispatch(setLoading(true))
