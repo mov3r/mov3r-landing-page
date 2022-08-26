@@ -19,14 +19,7 @@
   transition: .3s ease-in-out;
   justify-content: center;
 
-  @media screen and (min-width: 480px) {
-    text-transform: uppercase;
-  }
-
   &:disabled {
-    color: $invert-muted;
-    background: rgba($primary, .5);
-    backdrop-filter: unset;
     cursor: not-allowed;
     &:hover {
       color: $invert-muted;

@@ -57,7 +57,7 @@ const HomeScreen: React.FC = () => {
         dispatch(setLoading(false))
         return
       }).catch((error) => {
-        if (error.response.data.error === 'Already confirmed') {
+        if (error.response.data.error_code === 6) { //Already confirmed
           dispatch(setLoading(true))
           dispatch(setLinkType('waitlist'))
         }
@@ -107,7 +107,7 @@ const HomeScreen: React.FC = () => {
                 </>
                 :
                 <>
-                  <h1 className={styles.title}>The first Aptos bridge<br/>and cross-chain messaging protocol</h1>
+                  <h1 className={styles.title}>The first Aptos bridge</h1>
                   <p className={styles.text}>
                     Join the waitlist to be the first
                     <br/>
