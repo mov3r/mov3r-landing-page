@@ -14,7 +14,7 @@ import Spinner from '../Spinner';
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [referrer, setReferrer] = React.useState<string | undefined>(undefined)
-  const [urlPaths, setUrlPaths] = React.useState<string[] | undefined>(undefined)
+  // const [urlPaths, setUrlPaths] = React.useState<string[] | undefined>(undefined)
   const isEmailSent = useSelector((state: User) => state.user.isEmailSent)
   const slug = useSelector((state: User) => state.user.slug)
   const secret = useSelector((state: User) => state.user.secret)
@@ -22,26 +22,26 @@ const HomeScreen: React.FC = () => {
   const loading = useSelector((state: Service) => state.service.loading)
   const referralLink = useSelector((state: User) => state.user.referralLink)
   const error = useSelector((state: Service) => state.service.error)
-  const linkType = useSelector((state: Service) => state.service.linkType)
-
+  // const linkType = useSelector((state: Service) => state.service.linkType)
+  const [linkType, setLinkType] = React.useState<string>('')
   const url = new URL(window.location.href);
+  // setUrlPaths(url.pathname.split('/').splice(1))
+
   React.useEffect(() => {
-    setUrlPaths(url.pathname.split('/').splice(1))
-  }, [])
-  React.useEffect(() => {
-    if (!urlPaths) return
+    const urlPaths = url.pathname.split('/').splice(1)
+
     switch (true) {
       case urlPaths[0] === 'c':
         console.log('!!! confirmation:', urlPaths)
-        dispatch(setLinkType('confirmation'))
+        setLinkType('confirmation')
         dispatch(setSlug(urlPaths[1]))
         dispatch(setSecret(urlPaths[2]))
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
-      case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
+      case urlPaths[0] === 'r': setLinkType('referral')
         setReferrer(urlPaths[1])
         break;
-      case urlPaths[0] === 'w': dispatch(setLinkType('waitlist'))
+      case urlPaths[0] === 'w': setLinkType('waitlist')
         break;
     }
   }, [])
@@ -61,7 +61,7 @@ const HomeScreen: React.FC = () => {
       }).catch((error) => {
         if (error.response.data.error_code === 6) { //Already confirmed
           dispatch(setLoading(true))
-          dispatch(setLinkType('waitlist'))
+          setLinkType('waitlist')
         }
         dispatch(setLoading(false))
         dispatch(setError(error.response.data.error))
@@ -84,8 +84,7 @@ const HomeScreen: React.FC = () => {
         dispatch(setLoading(false))
       })
     }
-  }, [linkType])
-
+  }, [])
 
   return (
     <div className={styles.home}>
