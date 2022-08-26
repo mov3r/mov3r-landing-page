@@ -32,12 +32,12 @@ const HomeScreen: React.FC = () => {
         dispatch(setSlug(urlPaths[1]))
         setSecret(urlPaths[2])
         localStorage.setItem('slug', urlPaths[1])
-        // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
+        // window.history.pushState({}, 'Mover Verification', `${url.origin}/Waitlist/verify/`);
         break;
       case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
         break;
-      case urlPaths[0] === 'w': dispatch(setLinkType('waitlist'))
+      case urlPaths[0] === 'w': dispatch(setLinkType('Waitlist'))
         break;
     }
   }, [])
@@ -47,7 +47,7 @@ const HomeScreen: React.FC = () => {
   React.useEffect(() => {
     if (linkType === 'confirmation') {
       dispatch(setLoading(true))
-      axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
+      axios.post(`${process.env.REACT_APP_API_URL}/Waitlist/verify/`, {
         slug,
         secret
       }).then((response) => {
@@ -59,16 +59,16 @@ const HomeScreen: React.FC = () => {
       }).catch((error) => {
         if (error.response.data.error_code === 6) { //Already confirmed
           dispatch(setLoading(true))
-          dispatch(setLinkType('waitlist'))
+          dispatch(setLinkType('Waitlist'))
         }
         dispatch(setLoading(false))
         dispatch(setError(error.response.data.error))
         return
       })
-    } else if (linkType === 'waitlist') {
+    } else if (linkType === 'Waitlist') {
       dispatch(setLoading(false))
       // проверяем свою позицию в рейтинге
-      axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
+      axios.get(`${process.env.REACT_APP_API_URL}/Waitlist/position/`, {
         params: {slug :  urlPaths[1]},
       }).then((response) => {
         dispatch(setLoading(false))
@@ -96,11 +96,11 @@ const HomeScreen: React.FC = () => {
               <p className={styles.text}>
                 A verification email has been sent to you.
                 <br/>Please verify your email to secure your
-                spot on the waitlist.</p>
+                spot on the Waitlist.</p>
             </>
           ) : (
             <>
-              { linkType === 'waitlist' ?
+              { linkType === 'Waitlist' ?
                 <>
                   <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p>
                   <div className={styles.rank}>Your rank: <span>{rank}</span></div>
@@ -109,7 +109,7 @@ const HomeScreen: React.FC = () => {
                 <>
                   <h1 className={styles.title}>The first Aptos bridge</h1>
                   <p className={styles.text}>
-                    Join the waitlist to be the first
+                    Join the Waitlist to be the first
                     <br/>
                     to access our private alpha
                   </p>
