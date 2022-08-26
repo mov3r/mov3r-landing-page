@@ -108,7 +108,11 @@ const HomeScreen: React.FC = () => {
                 :
                 <>
                   <h1 className={styles.title}>The first Aptos bridge<br/>and cross-chain messaging protocol</h1>
-                  <p className={styles.text}>Join the WaitList to be the first<br/> to access the platform.</p>
+                  <p className={styles.text}>
+                    Join the waitlist to be the first
+                    <br/>
+                    to access our private alpha
+                  </p>
                 </>
               }
               { referralLink ?
