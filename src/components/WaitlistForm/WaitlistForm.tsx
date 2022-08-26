@@ -15,6 +15,10 @@ type WaitlistFormProps = {
   fromReferral?: string
 }
 
+const isValidEmail = (email:string) => {
+  return /\S+@\S+\.\S+/.test(email);
+}
+
 const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
   const [email, setEmail] = React.useState<string>('')
   const [token, setToken] = React.useState<string | undefined>(undefined);
@@ -27,6 +31,10 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     setEmail(event.target.value)
   }
   const handleFormSubmit = async () => {
+    if (!isValidEmail(email)) {
+      dispatch(setError('Invalid email format'))
+      return
+    }
     setShowCaptha(true)
   }
 
@@ -49,7 +57,6 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
       }
       dispatch(isEmailSent(false))
       dispatch(setLoading(false))
-      // dispatch(setError(error.response.data.error))
     }).finally(() => {
       if (captcha.current) captcha.current.resetCaptcha();
       setToken(undefined);

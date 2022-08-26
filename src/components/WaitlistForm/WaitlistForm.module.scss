@@ -14,7 +14,6 @@
   color: $invert;
   transition: background 0.25s;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0.21%, rgba(255, 255, 255, 0.32) 99.79%);
-  border: 2px solid rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(80px);
 }
 
@@ -34,7 +33,6 @@
   font-family: inherit;
 
   @media screen and (max-width: 480px) {
-    //width: 100%;
     margin: 0 !important;
 
   }
@@ -46,6 +44,8 @@
 
 .button {
   position: relative;
+  color: black;
+  box-shadow: 0 0 6px rgba(#000, 0.2);
   @media screen and (max-width: 480px) {
     position: absolute;
     left: 0;
@@ -72,10 +72,8 @@
 
 .errorMessage {
   color: $primary;
-  font-size: 1.5rem;
 
   &::before {
-    content: '❌ ';
     text-shadow: 0 1px 0 rgba($primary, .5);
   }
 
