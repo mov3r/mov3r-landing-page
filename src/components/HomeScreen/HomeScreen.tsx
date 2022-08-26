@@ -41,7 +41,9 @@ const HomeScreen: React.FC = () => {
       case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
         break;
-      case urlPaths[0] === 'w': dispatch(setLinkType('waitlist'))
+      case urlPaths[0] === 'w':
+        dispatch(setLinkType('waitlist'))
+        dispatch(setSlug(urlPaths[1]))
         break;
     }
   }, [])
@@ -62,6 +64,9 @@ const HomeScreen: React.FC = () => {
         if (error.response.data.error_code === 6) { //Already confirmed
           dispatch(setLoading(true))
           dispatch(setLinkType('waitlist'))
+          axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
+            params: {slug: slug},
+          })
         }
         dispatch(setLoading(false))
         dispatch(setError(error.response.data.error))
@@ -76,7 +81,7 @@ const HomeScreen: React.FC = () => {
         dispatch(setLoading(false))
         dispatch(setRank(response.data.position))
         dispatch(setReferralLink(response.data.reflink))
-        // window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
+        window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
       }).catch((error) => {
         window.location.href= '/'
         console.log('!!! error:', error)
