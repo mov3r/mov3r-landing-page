@@ -42,7 +42,7 @@ const HomeScreen: React.FC = () => {
       case urlPaths[0] === 'w': dispatch(setLinkType('waitlist'))
         break;
     }
-  }, [urlPaths])
+  }, [])
 
   React.useEffect(() => {
     if (linkType === 'confirmation') {
