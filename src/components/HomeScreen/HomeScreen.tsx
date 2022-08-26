@@ -14,8 +14,7 @@ import Spinner from '../Spinner';
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [referrer, setReferrer] = React.useState<string | undefined>(undefined)
-  const url = new URL(window.location.href);
-  const urlPaths: string[] = url.pathname.split('/').splice(1)
+  const [urlPaths, setUrlPaths] = React.useState<string[] | undefined>(undefined)
   const isEmailSent = useSelector((state: User) => state.user.isEmailSent)
   const slug = useSelector((state: User) => state.user.slug)
   const secret = useSelector((state: User) => state.user.secret)
@@ -25,8 +24,12 @@ const HomeScreen: React.FC = () => {
   const error = useSelector((state: Service) => state.service.error)
   const linkType = useSelector((state: Service) => state.service.linkType)
 
-  console.log('!!! TEST:', urlPaths)
+  const url = new URL(window.location.href);
   React.useEffect(() => {
+    setUrlPaths(url.pathname.split('/').splice(1))
+  }, [])
+  React.useEffect(() => {
+    if (!urlPaths) return
     switch (true) {
       case urlPaths[0] === 'c':
         console.log('!!! confirmation:', urlPaths)
@@ -68,7 +71,7 @@ const HomeScreen: React.FC = () => {
       dispatch(setLoading(false))
       // проверяем свою позицию в рейтинге
       axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
-        params: {slug :  urlPaths[1]},
+        params: {slug: slug},
       }).then((response) => {
         dispatch(setLoading(false))
         dispatch(setRank(response.data.position))
