@@ -111,7 +111,7 @@ const HomeScreen: React.FC = () => {
                   <p className={styles.text}>
                     Join the Waitlist to be the first
                     <br/>
-                    to access our private alpha
+                    to access our Private Alpha
                   </p>
                 </>
               }
