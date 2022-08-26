@@ -33,7 +33,6 @@ const HomeScreen: React.FC = () => {
         dispatch(setLinkType('confirmation'))
         dispatch(setSlug(urlPaths[1]))
         dispatch(setSecret(urlPaths[2]))
-        localStorage.setItem('slug', urlPaths[1])
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
       case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
