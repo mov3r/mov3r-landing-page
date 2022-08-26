@@ -9,11 +9,10 @@ import axios from 'axios';
 import styles from './HomeScreen.module.scss'
 import CopyReferralLink from '../CopyReferralLink';
 import Spinner from '../Spinner';
-import {Service, setLoading, setError} from '../../store/serviceSlice';
+import {Service, setLoading, setError, setLinkType} from '../../store/serviceSlice';
 
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const [linkType, setLinkType] = React.useState<string | undefined>(undefined)
   const [secret, setSecret] = React.useState<string | undefined>(undefined)
   const [referrer, setReferrer] = React.useState<string | undefined>(undefined)
   const url = new URL(window.location.href);
@@ -24,20 +23,21 @@ const HomeScreen: React.FC = () => {
   const loading = useSelector((state: Service) => state.service.loading)
   const referralLink = useSelector((state: User) => state.user.referralLink)
   const error = useSelector((state: Service) => state.service.error)
+  const linkType = useSelector((state: Service) => state.service.linkType)
 
   React.useEffect(() => {
     switch (true) {
       case urlPaths[0] === 'c':
-        setLinkType('confirmation')
+        dispatch(setLinkType('confirmation'))
         dispatch(setSlug(urlPaths[1]))
         setSecret(urlPaths[2])
         localStorage.setItem('slug', urlPaths[1])
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
-      case urlPaths[0] === 'r': setLinkType('referral')
+      case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
         break;
-      case urlPaths[0] === 'w': setLinkType('waitlist')
+      case urlPaths[0] === 'w': dispatch(setLinkType('waitlist'))
         break;
     }
   }, [])
@@ -59,7 +59,7 @@ const HomeScreen: React.FC = () => {
       }).catch((error) => {
         if (error.response.data.error === 'Already confirmed') {
           dispatch(setLoading(true))
-          setLinkType('waitlist')
+          dispatch(setLinkType('waitlist'))
         }
         dispatch(setLoading(false))
         dispatch(setError(error.response.data.error))

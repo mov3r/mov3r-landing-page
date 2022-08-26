@@ -3,15 +3,16 @@ import {createSlice} from '@reduxjs/toolkit';
 export interface Service {
   service: {
     loading: boolean,
-
-    error?: string
+    error?: string,
+    linkType?: string
   }
 }
 const userSlice = createSlice({
   name: 'service',
   initialState: {
     loading: false,
-    error: undefined
+    error: undefined,
+    linkType: undefined
   },
   reducers: {
 
@@ -21,8 +22,11 @@ const userSlice = createSlice({
     setError(state, action) {
       state.error = action.payload
     },
+    setLinkType(state, action) {
+      state.linkType = action.payload
+    },
   }
 })
 
-export const {setLoading, setError} = userSlice.actions
+export const {setLoading, setError, setLinkType} = userSlice.actions
 export default userSlice.reducer

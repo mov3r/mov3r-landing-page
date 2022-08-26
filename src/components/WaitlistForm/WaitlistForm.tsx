@@ -7,16 +7,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {isEmailSent} from '../../store/userSlice';
 import styles from './WaitlistForm.module.scss'
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import {setLoading, setError} from '../../store/serviceSlice';
+import {setLoading, setError, setLinkType} from '../../store/serviceSlice';
 
 type WaitlistFormProps = {
   className?: string
   error?: string
   fromReferral?: string
-}
-
-const isValidEmail = (email:string) => {
-  return /\S+@\S+\.\S+/.test(email);
 }
 
 const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
@@ -32,12 +28,6 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
   }
   const handleFormSubmit = async () => {
     setShowCaptha(true)
-  }
-  const handleValidate = () => {
-    if (!isValidEmail(email)) {
-      dispatch(setError('Invalid email format'))
-
-    }
   }
 
   React.useEffect(() => {
@@ -71,7 +61,6 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
           required
           className={styles.field}
           onChange={handleInputChange}
-          onBlur={handleValidate}
         />
         <Button
           className={styles.button}
