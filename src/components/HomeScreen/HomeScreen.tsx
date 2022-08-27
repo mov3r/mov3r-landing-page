@@ -25,9 +25,9 @@ const HomeScreen: React.FC = () => {
   const linkType = useSelector((state: Service) => state.service.linkType)
   const url = new URL(window.location.href);
 
+  if (!linkType) dispatch(setLoading(true))
   React.useEffect(() => {
     const urlPaths = url.pathname.split('/').splice(1)
-    dispatch(setLoading(true))
     switch (true) {
       case urlPaths[0] === 'c':
         dispatch(setLinkType('confirmation'))
@@ -46,8 +46,10 @@ const HomeScreen: React.FC = () => {
         dispatch(setSlug(urlPaths[1]))
         dispatch(setLoading(false))
         break;
+      default: dispatch(setLinkType('root'))
     }
   }, [])
+  console.log('!!! linkType:', linkType)
   React.useEffect(() => {
     dispatch(setLoading(true))
     if (linkType === 'confirmation') {
@@ -65,10 +67,12 @@ const HomeScreen: React.FC = () => {
           axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
             params: {slug: slug},
           })
+          dispatch(setLoading(false))
         }
         dispatch(setError(error.response.data.error))
         return
       })
+      dispatch(setLoading(false))
     } else if (linkType === 'waitlist') {
       // проверяем свою позицию в рейтинге
       axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
@@ -78,6 +82,7 @@ const HomeScreen: React.FC = () => {
         dispatch(setRank(response.data.position))
         dispatch(setReferralLink(response.data.reflink))
         window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
+        dispatch(setLoading(false))
       }).catch((error) => {
         window.location.href= '/'
         console.log('!!! error:', error)

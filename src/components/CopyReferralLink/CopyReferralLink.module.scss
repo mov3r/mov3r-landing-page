@@ -4,13 +4,16 @@
   display: flex;
   align-items: center;
   position: relative;
+  min-width: 300px;
   padding: 4px;
   border-radius: 58px;
-  min-width: 400px;
   color: $invert;
   transition: background 0.25s;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.4) 0.21%, rgba(255, 255, 255, 0.32) 99.79%);
   backdrop-filter: blur(80px);
+  @media screen and (max-width: 480px) {
+    min-height: 60px;
+  }
 }
 
 .input {
@@ -56,7 +59,18 @@
 }
 .button {
   min-width: 140px;
-  align-items: center;
+  position: relative;
+  color: black;
+  box-shadow: 0 0 6px rgba(#000, 0.2);
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -68px;
+    background-color: #fff;
+    backdrop-filter: unset;
+    height: 60px;
+  }
 }
 
 .arrowIcon, .copyIcon {
