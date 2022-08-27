@@ -49,7 +49,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
       dispatch(isEmailSent(true))
       dispatch(setLoading(false))
     }).catch(function (error) {
-      if (error.response.data.error_code === 1) {//This email has been already used
+      if (error.response.data.error_code === 1) { // This email has been already used
         dispatch(setLoading(false))
         dispatch(setSlug(error.response.data.slug))
         window.location.href=`/w/${error.response.data.slug}`
@@ -93,7 +93,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
         />
         <Button
           className={styles.button}
-          disabled={!email || Boolean(props.error) || showCaptha && !token}
+          disabled={!email || Boolean(props.error) || (showCaptha && !token)}
           onClick={handleFormSubmit}>
           Join Waitlist <ArrowIcon className={styles.arrowIcon}/>
         </Button>

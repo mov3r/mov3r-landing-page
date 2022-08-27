@@ -27,29 +27,30 @@ const HomeScreen: React.FC = () => {
 
   React.useEffect(() => {
     const urlPaths = url.pathname.split('/').splice(1)
-
+    dispatch(setLoading(true))
     switch (true) {
       case urlPaths[0] === 'c':
-        console.log('!!! confirmation:', urlPaths)
         dispatch(setLinkType('confirmation'))
         dispatch(setSlug(urlPaths[1]))
         dispatch(setSecret(urlPaths[2]))
+        dispatch(setLoading(false))
         // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
         break;
-      case urlPaths[0] === 'r': dispatch(setLinkType('referral'))
+      case urlPaths[0] === 'r':
+        dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
-        console.log('!!! REF:', referrer)
+        dispatch(setLoading(false))
         break;
       case urlPaths[0] === 'w':
         dispatch(setLinkType('waitlist'))
         dispatch(setSlug(urlPaths[1]))
+        dispatch(setLoading(false))
         break;
     }
   }, [])
-
   React.useEffect(() => {
+    dispatch(setLoading(true))
     if (linkType === 'confirmation') {
-      dispatch(setLoading(true))
       axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
         slug,
         secret
@@ -57,22 +58,18 @@ const HomeScreen: React.FC = () => {
         dispatch(setConfirmed(true))
         dispatch(setRank(response.data.position))
         dispatch(setReferralLink(response.data.reflink))
-        dispatch(setLoading(false))
         return
       }).catch((error) => {
         if (error.response.data.error_code === 6) { //Already confirmed
-          dispatch(setLoading(true))
           dispatch(setLinkType('waitlist'))
           axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
             params: {slug: slug},
           })
         }
-        dispatch(setLoading(false))
         dispatch(setError(error.response.data.error))
         return
       })
     } else if (linkType === 'waitlist') {
-      dispatch(setLoading(false))
       // проверяем свою позицию в рейтинге
       axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
         params: {slug: slug},
@@ -84,10 +81,9 @@ const HomeScreen: React.FC = () => {
       }).catch((error) => {
         window.location.href= '/'
         console.log('!!! error:', error)
-      }).finally(() => {
-        dispatch(setLoading(false))
       })
     }
+    dispatch(setLoading(false))
   }, [linkType])
 
   return (
