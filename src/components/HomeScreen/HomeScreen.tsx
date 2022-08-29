@@ -19,13 +19,11 @@ const HomeScreen: React.FC = () => {
   const slug = useSelector((state: User) => state.user.slug)
   const secret = useSelector((state: User) => state.user.secret)
   const rank = useSelector((state: User) => state.user.rank)
-  // const loading = useSelector((state: Service) => state.service.loading)
+  const loading = useSelector((state: Service) => state.service.loading)
   const referralLink = useSelector((state: User) => state.user.referralLink)
   const error = useSelector((state: Service) => state.service.error)
   const linkType = useSelector((state: Service) => state.service.linkType)
   const url = new URL(window.location.href);
-
-  const [loading, setLoading] = React.useState<boolean>(true)
 
 
   React.useEffect(() => {
@@ -41,21 +39,18 @@ const HomeScreen: React.FC = () => {
           dispatch(setConfirmed(true))
           dispatch(setRank(response.data.position))
           dispatch(setReferralLink(response.data.reflink))
-          setLoading(false)
+          dispatch(setLoading(false))
           return
         }).catch((error) => {
-          console.log('!!! error:')
           if (error.response.data.error_code === 6) { //Already confirmed
             dispatch(setLinkType('waitlist'))
-            console.log('!!! пизда бляд:')
             axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
               params: { slug: urlPaths[1] },
             }).then((response) => {
-              console.log('!!! push:')
               dispatch(setRank(response.data.position))
               dispatch(setReferralLink(response.data.reflink))
               window.history.pushState({}, 'Mover', `${url.origin}/w/${urlPaths[1]}/`);
-              setLoading(false)
+              dispatch(setLoading(false))
             })
             return;
           }
@@ -66,25 +61,24 @@ const HomeScreen: React.FC = () => {
       case urlPaths[0] === 'r':
         dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
-        setLoading(false)
+        dispatch(setLoading(false))
         break;
       case urlPaths[0] === 'w':
         axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
-          params: {slug: slug},
+          params: {slug: urlPaths[1]},
         }).then((response) => {
           dispatch(setRank(response.data.position))
           dispatch(setReferralLink(response.data.reflink))
           window.history.pushState({}, 'Mover', `${url.origin}/w/${urlPaths[1]}/`);
           setLoading(false)
         }).catch((error) => {
-          window.location.href= '/'
           console.log('!!! error:', error)
-          setLoading(false)
+          dispatch(setLoading(false))
         })
         break;
       default: {
         dispatch(setLinkType('root'))
-        setLoading(false)
+        dispatch(setLoading(false))
       }
     }
   },[])

@@ -40,7 +40,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
 
   React.useEffect(() => {
     if (!token) return
-    dispatch(setLoading(true))
+    // dispatch(setLoading(true))
     axios.post(`${process.env.REACT_APP_API_URL}/waitlist/add/`, {
       hcaptcha: token,
       email: email,
@@ -51,10 +51,9 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     }).catch(function (error) {
       if (error.response.data.error_code === 1) { // This email has been already used
         dispatch(setLoading(false))
-        dispatch(setSlug(error.response.data.slug))
         window.location.href=`/w/${error.response.data.slug}`
-        dispatch(setLoading(false))
       }
+      console.log('!!! error:', error.response.data.slug)
       dispatch(isEmailSent(false))
       dispatch(setLoading(false))
     }).finally(() => {
