@@ -19,77 +19,76 @@ const HomeScreen: React.FC = () => {
   const slug = useSelector((state: User) => state.user.slug)
   const secret = useSelector((state: User) => state.user.secret)
   const rank = useSelector((state: User) => state.user.rank)
-  const loading = useSelector((state: Service) => state.service.loading)
+  // const loading = useSelector((state: Service) => state.service.loading)
   const referralLink = useSelector((state: User) => state.user.referralLink)
   const error = useSelector((state: Service) => state.service.error)
   const linkType = useSelector((state: Service) => state.service.linkType)
   const url = new URL(window.location.href);
 
-  if (!linkType) dispatch(setLoading(true))
+  const [loading, setLoading] = React.useState<boolean>(true)
+
+
   React.useEffect(() => {
     const urlPaths = url.pathname.split('/').splice(1)
     switch (true) {
-      case urlPaths[0] === 'c':
-        dispatch(setLinkType('confirmation'))
+      case (urlPaths[0] === 'c'):
         dispatch(setSlug(urlPaths[1]))
         dispatch(setSecret(urlPaths[2]))
-        dispatch(setLoading(false))
-        // window.history.pushState({}, 'Mover Verification', `${url.origin}/waitlist/verify/`);
+        axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
+          slug: urlPaths[1],
+          secret: urlPaths[2]
+        }).then((response) => {
+          dispatch(setConfirmed(true))
+          dispatch(setRank(response.data.position))
+          dispatch(setReferralLink(response.data.reflink))
+          setLoading(false)
+          return
+        }).catch((error) => {
+          console.log('!!! error:')
+          if (error.response.data.error_code === 6) { //Already confirmed
+            dispatch(setLinkType('waitlist'))
+            console.log('!!! пизда бляд:')
+            axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
+              params: { slug: urlPaths[1] },
+            }).then((response) => {
+              console.log('!!! push:')
+              dispatch(setRank(response.data.position))
+              dispatch(setReferralLink(response.data.reflink))
+              window.history.pushState({}, 'Mover', `${url.origin}/w/${urlPaths[1]}/`);
+              setLoading(false)
+            })
+            return;
+          }
+          dispatch(setError(error.response.data.error))
+          return
+        })
         break;
       case urlPaths[0] === 'r':
         dispatch(setLinkType('referral'))
         setReferrer(urlPaths[1])
-        dispatch(setLoading(false))
+        setLoading(false)
         break;
       case urlPaths[0] === 'w':
-        dispatch(setLinkType('waitlist'))
-        dispatch(setSlug(urlPaths[1]))
-        dispatch(setLoading(false))
+        axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
+          params: {slug: slug},
+        }).then((response) => {
+          dispatch(setRank(response.data.position))
+          dispatch(setReferralLink(response.data.reflink))
+          window.history.pushState({}, 'Mover', `${url.origin}/w/${urlPaths[1]}/`);
+          setLoading(false)
+        }).catch((error) => {
+          window.location.href= '/'
+          console.log('!!! error:', error)
+          setLoading(false)
+        })
         break;
-      default: dispatch(setLinkType('root'))
+      default: {
+        dispatch(setLinkType('root'))
+        setLoading(false)
+      }
     }
-  }, [])
-  console.log('!!! linkType:', linkType)
-  React.useEffect(() => {
-    dispatch(setLoading(true))
-    if (linkType === 'confirmation') {
-      axios.post(`${process.env.REACT_APP_API_URL}/waitlist/verify/`, {
-        slug,
-        secret
-      }).then((response) => {
-        dispatch(setConfirmed(true))
-        dispatch(setRank(response.data.position))
-        dispatch(setReferralLink(response.data.reflink))
-        return
-      }).catch((error) => {
-        if (error.response.data.error_code === 6) { //Already confirmed
-          dispatch(setLinkType('waitlist'))
-          axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
-            params: {slug: slug},
-          })
-          dispatch(setLoading(false))
-        }
-        dispatch(setError(error.response.data.error))
-        return
-      })
-      dispatch(setLoading(false))
-    } else if (linkType === 'waitlist') {
-      // проверяем свою позицию в рейтинге
-      axios.get(`${process.env.REACT_APP_API_URL}/waitlist/position/`, {
-        params: {slug: slug},
-      }).then((response) => {
-        dispatch(setLoading(false))
-        dispatch(setRank(response.data.position))
-        dispatch(setReferralLink(response.data.reflink))
-        window.history.pushState({}, 'Mover', `${url.origin}/w/${slug}/`);
-        dispatch(setLoading(false))
-      }).catch((error) => {
-        window.location.href= '/'
-        console.log('!!! error:', error)
-      })
-    }
-    dispatch(setLoading(false))
-  }, [linkType])
+  },[])
+
 
   return (
     <div className={styles.home}>
