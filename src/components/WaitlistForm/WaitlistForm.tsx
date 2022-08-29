@@ -35,7 +35,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     console.log('!!! email:', email)
     if (!email) return;
     if (!isValidEmail(email)) {
-      dispatch(setError('Invalid email format AAA'))
+      dispatch(setError('Invalid email format'))
       return
     }
     setShowCaptha(true)
