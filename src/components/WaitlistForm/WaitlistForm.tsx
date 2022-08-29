@@ -16,7 +16,8 @@ type WaitlistFormProps = {
 }
 
 const isValidEmail = (email:string) => {
-  return /\S+@\S+\.\S+/.test(email);
+  const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regex.test(email);
 }
 
 const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
@@ -31,8 +32,10 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     setEmail(event.target.value)
   }
   const handleFormSubmit = async () => {
+    console.log('!!! email:', email)
+    if (!email) return;
     if (!isValidEmail(email)) {
-      dispatch(setError('Invalid email format'))
+      dispatch(setError('Invalid email format AAA'))
       return
     }
     setShowCaptha(true)
