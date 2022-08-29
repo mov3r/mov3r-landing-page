@@ -104,7 +104,7 @@ const HomeScreen: React.FC = () => {
                 spot on the waitlist.</p>
             </>
           ) : (
-            <>
+            <div>
               { rank ?
                 <>
                   <p className={styles.text}>Skip ahead in line by referring friends<br/>using the link below.</p>
@@ -129,7 +129,7 @@ const HomeScreen: React.FC = () => {
                   className={styles.form}
                 />
               }
-            </>
+            </div>
           )
         )}
       </div>
