@@ -5,9 +5,10 @@ import HomeScreen from './components/HomeScreen'
 import ReactGA from 'react-ga';
 import './App.scss'
 
-ReactGA.initialize('G-HQVR1RQ0EQ');
 
 function App() {
+  ReactGA.initialize('G-HQVR1RQ0EQ');
+
   React.useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
