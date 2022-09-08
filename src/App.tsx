@@ -6,11 +6,11 @@ import ReactGA from 'react-ga';
 import './App.scss'
 
 ReactGA.initialize(`${process.env.REACT_APP_TRACKING_ID}`);
-React.useEffect(() => {
-  ReactGA.pageview(window.location.pathname + window.location.search);
-}, []);
 
 function App() {
+  React.useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
     return (
     <Router>
       <div className="App">
