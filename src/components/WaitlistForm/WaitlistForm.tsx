@@ -3,11 +3,12 @@ import cn from 'classnames'
 import Button from '../Button';
 import {ReactComponent as ArrowIcon} from '../../assets/arrow.svg';
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
-import {isEmailSent, setSlug} from '../../store/userSlice';
+import {useDispatch} from 'react-redux';
+import {isEmailSent} from '../../store/userSlice';
 import styles from './WaitlistForm.module.scss'
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import {setLoading, setError, setLinkType} from '../../store/serviceSlice';
+import {setLoading, setError} from '../../store/serviceSlice';
+import useAnalyticsEventTracker from '../../utils/useAnalyticsEventTracker';
 
 type WaitlistFormProps = {
   className?: string
@@ -31,7 +32,10 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     dispatch(setError(undefined))
     setEmail(event.target.value)
   }
+
+  const gaEventTracker = useAnalyticsEventTracker('Join Waitlist');
   const handleFormSubmit = async () => {
+    gaEventTracker('Click Join button')
     console.log('!!! email:', email)
     if (!email) return;
     if (!isValidEmail(email)) {
@@ -51,6 +55,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     }).then(() => {
       dispatch(isEmailSent(true))
       dispatch(setLoading(false))
+      gaEventTracker('Resolve Hcaptcha')
     }).catch(function (error) {
       if (error.response.data.error_code === 1) { // This email has been already used
         dispatch(setLoading(false))

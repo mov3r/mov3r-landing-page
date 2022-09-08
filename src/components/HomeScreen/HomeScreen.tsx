@@ -16,15 +16,11 @@ const HomeScreen: React.FC = () => {
   const [referrer, setReferrer] = React.useState<string | undefined>(undefined)
   // const [urlPaths, setUrlPaths] = React.useState<string[] | undefined>(undefined)
   const isEmailSent = useSelector((state: User) => state.user.isEmailSent)
-  const slug = useSelector((state: User) => state.user.slug)
-  const secret = useSelector((state: User) => state.user.secret)
   const rank = useSelector((state: User) => state.user.rank)
   const loading = useSelector((state: Service) => state.service.loading)
   const referralLink = useSelector((state: User) => state.user.referralLink)
   const error = useSelector((state: Service) => state.service.error)
-  const linkType = useSelector((state: Service) => state.service.linkType)
   const url = new URL(window.location.href);
-
 
   React.useEffect(() => {
     const urlPaths = url.pathname.split('/').splice(1)
@@ -82,7 +78,6 @@ const HomeScreen: React.FC = () => {
       }
     }
   },[])
-
 
   return (
     <div className={styles.home}>

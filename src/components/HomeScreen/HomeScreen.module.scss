@@ -1,7 +1,6 @@
 .home {
   position: relative;
   text-align: center;
-
   .logo {
     font-size: 140px;
     vertical-align: bottom;
@@ -22,6 +21,9 @@
     align-items: center;
     justify-content: center;
     min-height: 377px;
+    > div {
+      width: 100%;
+    }
   }
 
   .title {
