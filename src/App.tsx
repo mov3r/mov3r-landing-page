@@ -7,11 +7,11 @@ import './App.scss'
 
 
 function App() {
-  ReactGA.initialize('G-HQVR1RQ0EQ');
+  // ReactGA.initialize('G-HQVR1RQ0EQ');
 
-  React.useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }, []);
+  // React.useEffect(() => {
+  //   ReactGA.pageview(window.location.pathname + window.location.search);
+  // }, []);
     return (
     <Router>
       <div className="App">
