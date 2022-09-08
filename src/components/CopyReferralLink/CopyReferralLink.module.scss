@@ -5,6 +5,8 @@
   align-items: center;
   position: relative;
   min-width: 300px;
+  max-width: 528px;
+  margin: auto;
   padding: 4px;
   border-radius: 58px;
   color: $invert;
@@ -44,6 +46,7 @@
   flex: 1;
   position: relative;
   height: 28px;
+  text-align: left;
   line-height: 28px;
   margin: 0 8px 0 28px;
 }
