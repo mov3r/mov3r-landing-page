@@ -5,7 +5,7 @@ import HomeScreen from './components/HomeScreen'
 import ReactGA from 'react-ga';
 import './App.scss'
 
-ReactGA.initialize(`${process.env.REACT_APP_TRACKING_ID}`);
+ReactGA.initialize('G-HQVR1RQ0EQ');
 
 function App() {
   React.useEffect(() => {

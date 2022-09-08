@@ -5,7 +5,7 @@ import {User} from '../../store/userSlice';
 import {ReactComponent as CopyIcon} from '../../assets/copy.svg';
 import styles from './CopyReferralLink.module.scss';
 import cn from 'classnames';
-import useAnalyticsEventTracker from '../../utils/useAnalyticsEventTracker';
+import ReactGA from 'react-ga';
 
 type Props = {
   className?: string
@@ -14,10 +14,12 @@ type Props = {
 const CopyReferralLink: React.FC<Props> = (props) => {
   const [isCopied, setIsCopied] = React.useState<boolean>(false)
   const referralLink = useSelector((state: User) => state.user.referralLink)
-  const gaEventTracker = useAnalyticsEventTracker('Copy Referral Link');
   const copyLink = () => {
     if (!referralLink) return
-    gaEventTracker('Click Copy Button')
+    ReactGA.event({
+      category: 'Copy Referral Link',
+      action: 'Click Copy Button',
+    });
     navigator.clipboard.writeText(referralLink).then(() => {
       console.log('Copied to clipboard')
     })
