@@ -8,7 +8,6 @@ import {isEmailSent} from '../../store/userSlice';
 import styles from './WaitlistForm.module.scss'
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {setLoading, setError} from '../../store/serviceSlice';
-import ReactGA from 'react-ga'
 
 type WaitlistFormProps = {
   className?: string
@@ -33,19 +32,14 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     setEmail(event.target.value)
   }
 
-  // const gaEventTracker = useAnalyticsEventTracker('Join Waitlist');
-
   const handleFormSubmit = async () => {
-    ReactGA.event({
-      category: 'Submit email',
-      action: 'Click Join button',
-    });
     if (!email) return;
     if (!isValidEmail(email)) {
       dispatch(setError('Invalid email format'))
       return
     }
     setShowCaptha(true)
+    window.gtag('event', 'click_join_button', { event_category: 'register_email' })
   }
 
   React.useEffect(() => {
@@ -58,10 +52,7 @@ const WaitlistForm: React.FC<WaitlistFormProps> = (props) => {
     }).then(() => {
       dispatch(isEmailSent(true))
       dispatch(setLoading(false))
-      ReactGA.event({
-        category: 'Submit email',
-        action: 'Resolve HСaptcha',
-      });
+      window.gtag('event', 'resolve_captcha', { event_category: 'register_email' })
     }).catch(function (error) {
       if (error.response.data.error_code === 1) { // This email has been already used
         dispatch(setLoading(false))
