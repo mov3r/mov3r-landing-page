@@ -24,10 +24,10 @@ body {
     right: 0;
     bottom: 0;
     filter: blur(220px);
-    background: linear-gradient(45deg, #009FFF, #009FFF, #00ffe8, #8b7cff);
+    background: linear-gradient(45deg, #009FFF, #00ffe8, #009FFF, #8b7cff);
     background-size: 600% 200%;
     padding: 0 30px;
-    animation: gradient 60s ease infinite;
+    animation: gradient 24s ease infinite;
     @media (max-width: 767.98px) {
       filter: blur(160px);
     }

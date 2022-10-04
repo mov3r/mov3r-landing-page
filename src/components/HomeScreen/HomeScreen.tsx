@@ -15,10 +15,11 @@ import {ReactComponent as Arrow} from '../../assets/Arrow_Left_MD.svg';
 const HomeScreen: React.FC = () => {
   return (
     <div className={styles.home}>
-      <Logo className={styles.logo}/>
-      <h1 className={styles.title}>The first Aptos bridge</h1>
+      <div>
+        <Logo className={styles.logo}/>
+        <h1 className={styles.title}>The first Aptos bridge</h1>
+      </div>
       <article className={styles.start}>
-        <p>Start enjoying the best bridge <br/> in the world</p>
         <a href="https://app.mov3r.xyz/" className={styles.startButton}>Use Mover <Arrow className={styles.arrow}/></a>
       </article>
 
