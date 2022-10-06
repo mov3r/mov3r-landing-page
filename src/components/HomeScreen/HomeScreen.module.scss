@@ -1,6 +1,13 @@
 .home {
   position: relative;
   text-align: center;
+
+  @media screen and (max-width: 480px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+  }
   .logo {
     font-size: 140px;
     vertical-align: bottom;
@@ -64,8 +71,8 @@
   }
 
   .start {
-    max-width: 502px;
-    padding: 48px 0;
+    max-width: 582px;
+    padding: 48px;
     display: flex;
     flex-direction: column;
     background: rgba(30, 30, 30, 0.2);
@@ -81,23 +88,31 @@
         padding: 24px 24px;
       }
     }
+
   .startButton {
     display: flex;
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
+    justify-content: center;
+    min-width: 300px;
     gap: 12px;
     background: #FFFFFF;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-    padding: 16px 48px;
+    padding: 10px 20px;
     color: #17171A;
     max-width: 222px;
-    margin: 40px 16px 0 16px;
+    margin: 20px 16px;
     box-sizing: border-box;
     white-space: nowrap;
     text-decoration: none;
     font-weight: 500;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
   }
 }
 

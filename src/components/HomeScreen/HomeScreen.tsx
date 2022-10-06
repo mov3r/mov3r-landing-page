@@ -1,16 +1,8 @@
 import React from 'react'
 import {Logo} from '../Logo/Logo';
-import WaitlistForm from '../WaitlistForm';
 import Social from '../Social';
-import {useDispatch, useSelector} from 'react-redux';
-import {setReferralLink, User} from '../../store/userSlice';
-import {setSlug, setSecret, setRank, setConfirmed} from '../../store/userSlice';
-import {Service, setLoading, setError, setLinkType} from '../../store/serviceSlice';
-import axios from 'axios';
+import {ReactComponent as Twitter} from '../../assets/twitter.svg';
 import styles from './HomeScreen.module.scss'
-import CopyReferralLink from '../CopyReferralLink';
-import Spinner from '../Spinner';
-import {ReactComponent as Arrow} from '../../assets/Arrow_Left_MD.svg';
 
 const HomeScreen: React.FC = () => {
   return (
@@ -18,11 +10,16 @@ const HomeScreen: React.FC = () => {
       <Logo className={styles.logo}/>
       <h1 className={styles.title}>The first Aptos bridge</h1>
       <article className={styles.start}>
-        <p>Start enjoying the best bridge <br/> in the world</p>
-        <a href="https://app.mov3r.xyz/" className={styles.startButton}>Use Mover <Arrow className={styles.arrow}/></a>
+        <h2>Your Discord is verified!</h2>
+        <p>Your participation in the Private Alpha is now officially confirmed! </p>
+        <a
+          href="https://twitter.com/intent/tweet?text=Hello%20worl&url=ТУТ_УРЛ_ЭТОЙ_СТРАНИЦЫ"
+          className={styles.startButton}
+        >
+          Share on Twitter! <Twitter/>
+        </a>
       </article>
-
-      <Social networks={['discord', 'github', 'twitter']} className={styles.social}/>
+      <Social networks={['discord', 'github', 'twitter', 'medium']} className={styles.social}/>
     </div>
   )
 }
