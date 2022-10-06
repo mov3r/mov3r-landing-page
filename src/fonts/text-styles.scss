@@ -27,6 +27,17 @@ h1 {
   }
 }
 
+h2 {
+  font-size: 22px;
+  font-weight: bolder;
+  letter-spacing: 2.5px;
+  margin-bottom: 22px;
+  @media only screen and (max-width: 480px) {
+    font-size: 20px;
+  }
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
