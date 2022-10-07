@@ -9,7 +9,7 @@
     flex-direction: column;
   }
   .logo {
-    font-size: 140px;
+    font-size: 10vw;
     vertical-align: bottom;
 
     @media only screen and (max-width: 800px) {
@@ -82,12 +82,11 @@
     font-size: 18px;
     align-items: center;
     justify-content: center;
-  }
     @media screen and (max-width: 480px) {
-      .start {
-        padding: 24px 24px;
-      }
+      padding: 20px;
+      margin: 0 20px;
     }
+  }
 
   .startButton {
     display: flex;
