@@ -19,6 +19,7 @@ body {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   overflow-y: scroll;
   &::before {
+    overflow: hidden;
     height: 100vh;
     content: '';
     position: absolute;
@@ -27,10 +28,11 @@ body {
     right: 0;
     bottom: 0;
     filter: blur(220px);
+    will-change: filter;
     background: linear-gradient(45deg, #009FFF, #00ffe8, #009FFF, #8b7cff);
     background-size: 600% 200%;
     padding: 0 30px;
-    animation: gradient 24s ease infinite;
+    animation: gradient 30s ease infinite;
     @media (max-width: 767.98px) {
       filter: blur(160px);
     }
