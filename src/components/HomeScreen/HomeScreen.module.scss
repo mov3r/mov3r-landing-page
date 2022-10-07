@@ -1,33 +1,30 @@
 .home {
   position: relative;
   text-align: center;
+  padding: 1vw 0;
 
   @media screen and (max-width: 480px) {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: column;
+    min-height: 100vh;
+    padding: 4vw 0;
   }
+
   .logo {
-    font-size: 10vw;
+    transition: .3s ease-in-out;
+    font-size: clamp(8vw, 10vw, 8vw);
     vertical-align: bottom;
-
-    @media only screen and (max-width: 800px) {
-      font-size: 80px;
-    }
-
-    @media only screen and (max-width: 480px) {
-      font-size: 60px;
-    }
   }
 
   .container {
-    transition: .3s ease-in-out;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     min-height: 377px;
+    align-items: center;
+    transition: .3s ease-in-out;
     > div {
       width: 100%;
     }
