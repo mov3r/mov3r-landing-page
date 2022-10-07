@@ -22,7 +22,7 @@ const HomeScreen: React.FC = () => {
         .catch((error) => {
           console.error('!!! Error:', error)
         })
-    setImgPath(response)
+    setImgPath(response.badge_link)
   };
   React.useEffect(() => {
     getApiData()
