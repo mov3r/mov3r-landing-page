@@ -276,8 +276,6 @@ export default {
     width: 110%;
     max-width: 600px;
     margin-left: -40%;
-    -webkit-animation: logo 5s ease-in-out infinite;
-    animation: logo 5s ease-in-out infinite;
   }
 }
 
@@ -372,19 +370,5 @@ export default {
   right: 30px;
   z-index: 155;
   -webkit-transform: translate3d(0,0,0);
-}
-
-@-webkit-keyframes logo {
-  50% {
-    -webkit-transform:rotate(-3deg) translateY(-15px) translateX(-5px);
-    transform:rotate(-3deg) translateY(-15px) translateX(-5px);
-  }
-}
-
-@keyframes logo {
-  50% {
-    -webkit-transform:rotate(-3deg) translateY(-15px) translateX(-5px);
-    transform:rotate(-3deg) translateY(-15px) translateX(-5px);
-  }
 }
 </style>
