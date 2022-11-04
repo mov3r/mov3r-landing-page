@@ -8,7 +8,7 @@
           The <span>Aptos</span><br>
           centric bridge
         </h1>
-        <a href="https://mov3r.xyz/" class="mover-link">
+        <a href="https://app.mov3r.xyz/" class="mover-link">
           <span class="mover-link__inner">
             <span class="mover-link__text">
               Use Mover
@@ -26,7 +26,7 @@
     </div>
     <div class="mover-wrap__side">
       <div class="mover-use">
-        <a class="link link-reverce" href="https://mov3r.xyz/">Use Mover</a>
+        <a class="link link-reverce" href="https://app.mov3r.xyz/">Use Mover</a>
       </div>
       <div class="mover-logo">
         <img class="mover-logo__img" src="./assets/mover.png" alt="Mover">
