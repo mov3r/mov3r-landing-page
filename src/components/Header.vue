@@ -12,7 +12,7 @@
   </div>
   <nav class="mover-nav">
     <ul class="mover-nav__nav">
-      <li class="mover-nav__item"><a class="link" target="_blank" href="https://discord.gg/moverxyz">Discord</a></li>
+      <li class="mover-nav__item"><a class="link" target="_blank" href="https://discord.gg/45us2C3NBw">Discord</a></li>
       <li class="mover-nav__item"><a class="link" target="_blank" href="https://twitter.com/moverxyz">Twitter</a></li>
       <li class="mover-nav__item"><a class="link" target="_blank" href="https://medium.com/@moverxyz">Medium</a></li>
       <li class="mover-nav__item"><a class="link" target="_blank" href="https://github.com/mov3r/">GitHub</a></li>
