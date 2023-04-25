@@ -16,6 +16,7 @@
       <li class="mover-nav__item"><a class="link" target="_blank" href="https://twitter.com/moverxyz">Twitter</a></li>
       <li class="mover-nav__item"><a class="link" target="_blank" href="https://medium.com/@moverxyz">Medium</a></li>
       <li class="mover-nav__item"><a class="link" target="_blank" href="https://github.com/mov3r/">GitHub</a></li>
+      <li class="mover-nav__item"><a class="link" target="_blank" href="https://docs.mov3r.xyz/mover-gitbook/">GitBook</a></li>
     </ul>
   </nav>
 
